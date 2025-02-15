@@ -9,6 +9,12 @@ import java.util.*;
 
 public class FichContPalabras {
 
+    /**
+     * Tokeniza un fichero de texto y devuelve un mapa con las palabras y su frecuencia.
+     * @param fichEntrada Fichero de texto a tokenizar.
+     * @return Map <String, Integer> Mapa con las palabras y su frecuencia.
+     * @throws IOException Si no se puede leer el fichero.
+     */
     public static Map <String, Integer> tokenizarFichero(String fichEntrada) throws IOException {
         Map <String, Integer> map = new TreeMap <String, Integer> ();
         BufferedReader br = new BufferedReader (new FileReader (fichEntrada));
@@ -30,6 +36,12 @@ public class FichContPalabras {
         return map;
     }
 
+    /**
+     * Imprime un mapa en un fichero de texto.
+     * @param fichSalida Fichero de texto de salida.
+     * @param map Mapa a imprimir.
+     * @throws IOException Si no se puede escribir en el fichero.
+     */
     public static void imprimirFichero(String fichSalida, Map <String, Integer> map) throws IOException {
         List <String> claves = new ArrayList <String> (map.keySet ());
         Collections.sort (claves);
@@ -42,7 +54,7 @@ public class FichContPalabras {
         }
         pr.close ();
     }
-    
+
     public static void main (String args[]) throws IOException {
         if (args.length < 2) {
             System.out.println ("ERROR. Utilizar: >java FichContPalabras fichero_entrada fichero_salida");

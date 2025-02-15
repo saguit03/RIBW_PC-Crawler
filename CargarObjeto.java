@@ -8,6 +8,11 @@ import java.io.*;
 import java.util.*;
 
 public class CargarObjeto {
+
+    /**
+     * 
+     * @param fichero
+     */
     public static void cargarObjeto(String fichero){
         try {
             FileInputStream fis = new FileInputStream(fichero);

@@ -9,6 +9,11 @@ import java.util.*;
 
 public class SalvarObjeto {
 
+    /**
+     * Guarda un objeto serializable en un fichero.
+     * @param fichero Fichero donde se guardará el objeto.
+     * @param h Objeto serializable.
+     */
     public static void salvarObjeto(String fichero, Hashtable <String, Object> h) {
         /*
          * en el caso de nuestro PC-Crawler ha de utilizarse la estructura Heap

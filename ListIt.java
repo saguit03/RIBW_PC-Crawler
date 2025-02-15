@@ -8,12 +8,9 @@ import java.io.*;
 
 class ListIt {
 
-    /*
+    /** 
      * Lee un fichero válido cualquiera (directorio o documento). Se considera válido si existe y tiene permisos de lectura.
-     *  
-     * @param fichero Directorio o documento cuyo contenido se pretende leer,
-     * tokenizar y guardar.
-     * 
+     * @param fichero Directorio o documento cuyo contenido se pretende leer, tokenizar y guardar.
     */
     public static void leerFichero(File fichero){
         if (!fichero.exists() || !fichero.canRead()) {
@@ -33,11 +30,9 @@ class ListIt {
         }
     }
 
-    /*
+    /**
      * Lee el contenido de un directorio.
-     * 
      * @param directorio Lista de ficheros.
-     * 
     */
     public static void leerDirectorio(File directorio) {
         String [] listaFicheros = directorio.list();
@@ -48,11 +43,9 @@ class ListIt {
         }
     }
 
-    /*
+    /**
      * Lee el contenido de un documento línea a línea.
-     * 
      * @param documento Fichero textual.
-     * 
     */
     public static void leerDocumento(File documento) {
         try {
