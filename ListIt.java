@@ -9,9 +9,9 @@ import java.io.*;
 class ListIt {
 
     /*
-     * Este método permite leer un fichero si éste existe y tiene permisos de lectura.
+     * Lee un fichero válido cualquiera (directorio o documento). Se considera válido si existe y tiene permisos de lectura.
      *  
-     * @param fichero El parámetro fichero define el elemento cuyo contenido se pretende leer,
+     * @param fichero Directorio o documento cuyo contenido se pretende leer,
      * tokenizar y guardar.
      * 
     */
@@ -34,10 +34,9 @@ class ListIt {
     }
 
     /*
-     * Este método permite leer el contenido de un directorio.
+     * Lee el contenido de un directorio.
      * 
-     * @param directorio El parámetro directorio define un elemento que puede contener una
-     * lista de ficheros que se pueden tratar.
+     * @param directorio Lista de ficheros.
      * 
     */
     public static void leerDirectorio(File directorio) {
@@ -50,9 +49,9 @@ class ListIt {
     }
 
     /*
-     * Este método permite leer el contenido de un documento línea a línea.
+     * Lee el contenido de un documento línea a línea.
      * 
-     * @param documento El parámetro documento define un fichero textual que se pretende tratar.
+     * @param documento Fichero textual.
      * 
     */
     public static void leerDocumento(File documento) {
