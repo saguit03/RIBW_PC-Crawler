@@ -1,3 +1,5 @@
+package entrega1;
+
 /*
  * CargarObjeto.java: Lee un objeto serializable, previamente salvado en un fichero, a memoria
  * (i) Felix R. Rguez., EPCC, Universidad de Extremadura, 2009-23
@@ -10,8 +12,8 @@ import java.util.*;
 public class CargarObjeto {
 
     /**
-     * 
-     * @param fichero
+     * Imprime el contenido de un objeto serializable previamente guardado en un fichero.
+     * @param fichero Fichero que contiene el objeto serializable.
      */
     public static void cargarObjeto(String fichero){
         try {

@@ -1,3 +1,4 @@
+package entrega1;
 /*
  * SalvarObjeto.java: Guarda un objeto serializable en un fichero
  * (i) Felix R. Rguez., EPCC, Universidad de Extremadura, 2009-23
@@ -10,6 +11,24 @@ import java.util.*;
 public class SalvarObjeto {
 
     /**
+     * Guarda un objeto serializable en un fichero.
+     * @param fichero Fichero donde se guardará el objeto.
+     * @param h Mapa serializable.
+     */
+    public static void salvarObjeto(String fichero, Map <String, Integer> h) {
+        /*
+         * en el caso de nuestro PC-Crawler ha de utilizarse la estructura Heap
+         * Map <String, Integer> map
+         */
+        try {
+            FileOutputStream fos = new FileOutputStream(fichero);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(h);
+        }
+        catch (Exception e) { System.out.println(e); }
+    }
+
+        /**
      * Guarda un objeto serializable en un fichero.
      * @param fichero Fichero donde se guardará el objeto.
      * @param h Objeto serializable.

@@ -1,3 +1,4 @@
+package entrega1;
 /*
  * FichContPalabras.java: Contabiliza palabras contenidas en un fichero
  * (i) Felix R. Rguez., EPCC, Universidad de Extremadura, 2009-23
@@ -12,16 +13,15 @@ public class FichContPalabras {
     /**
      * Tokeniza un fichero de texto y devuelve un mapa con las palabras y su frecuencia.
      * @param fichEntrada Fichero de texto a tokenizar.
-     * @return Map <String, Integer> Mapa con las palabras y su frecuencia.
+     * @param map Mapa ya inicializado con las palabras y su frecuencia.
      * @throws IOException Si no se puede leer el fichero.
      */
-    public static Map <String, Integer> tokenizarFichero(String fichEntrada) throws IOException {
-        Map <String, Integer> map = new TreeMap <String, Integer> ();
+    public static void tokenizarFichero(Map <String, Integer> map, String fichEntrada) throws IOException {
         BufferedReader br = new BufferedReader (new FileReader (fichEntrada));
         String linea;
 
         while ( (linea = br.readLine () ) != null) {
-            StringTokenizer st = new StringTokenizer (linea, " ,.:;(){}!°?\t''%/|[]<=>&#+*$-¨^~\n@");
+            StringTokenizer st = new StringTokenizer (linea, " ,.:;(){}¡!°\"¿?\t'%/\\|[]<=>&#+*$-¨^~\n@");
             while (st.hasMoreTokens () ) {
                 String s = st.nextToken();
                 Object o = map.get(s);
@@ -33,6 +33,17 @@ public class FichContPalabras {
             }
         }
         br.close ();
+    }
+
+    /**
+     * Tokeniza un fichero de texto y devuelve un mapa con las palabras y su frecuencia.
+     * @param fichEntrada Fichero de texto a tokenizar.
+     * @return Map <String, Integer> Mapa con las palabras y su frecuencia.
+     * @throws IOException Si no se puede leer el fichero.
+     */
+    public static Map <String, Integer> tokenizarFichero(String fichEntrada) throws IOException {
+        Map <String, Integer> map = new TreeMap <String, Integer> ();
+        tokenizarFichero (map, fichEntrada);
         return map;
     }
 

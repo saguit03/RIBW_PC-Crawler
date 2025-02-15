@@ -1,3 +1,4 @@
+package entrega1;
 /*
  * ListIt.java: Lista contenido de ficheros textuales
  * (i) Felix R. Rodriguez, EPCC, Universidad de Extremadura, 2009-23
@@ -5,8 +6,12 @@
  */
 
 import java.io.*;
+import java.util.Map;
+import java.util.TreeMap;
 
 class ListIt {
+    public static Map<String, Integer> map;
+
 
     /** 
      * Lee un fichero válido cualquiera (directorio o documento). Se considera válido si existe y tiene permisos de lectura.
@@ -26,7 +31,13 @@ class ListIt {
              * .txt, .java, .c, .cpp, etc., empleando metodos de la clase String:
              * lastIndexOf('.'), substring (posic) y equals(".txt")...
              */
-            leerDocumento(fichero);
+            // leerDocumento(fichero);
+            try {
+                FichContPalabras.tokenizarFichero(map, fichero.getPath());
+//                FichContPalabras.imprimirFichero(fichero.getPath()+".out", map);
+            } catch (Exception e) {
+                System.out.println("ERROR al tokenizar el fichero");
+            }
         }
     }
 
@@ -37,9 +48,8 @@ class ListIt {
     public static void leerDirectorio(File directorio) {
         String [] listaFicheros = directorio.list();
         for (int i=0; i<listaFicheros.length; i++){
-            System.out.println("-----"+listaFicheros[i]+"-----");
+            System.out.println( listaFicheros[i]+"-----");
             leerFichero(new File(directorio.getPath()+"/"+listaFicheros[i]));
-            System.out.println("---------------");
         }
     }
 
@@ -66,6 +76,9 @@ class ListIt {
             System.out.println("ERROR. Ejecutar: >java ListIt nombre_archivo");
             return;
         }
-        leerFichero(new File(args[0]));
+        map = new TreeMap<String, Integer>();
+        File fichero = new File(args[0]);
+        leerFichero(fichero);
+        FichContPalabras.imprimirFichero(fichero.getPath()+".out", map);
     }
 }
