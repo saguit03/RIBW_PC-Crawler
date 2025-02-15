@@ -8,6 +8,13 @@ import java.io.*;
 
 class ListIt {
 
+    /*
+     * Este método permite leer un fichero si éste existe y tiene permisos de lectura.
+     *  
+     * @param fichero El parámetro fichero define el elemento cuyo contenido se pretende leer,
+     * tokenizar y guardar.
+     * 
+    */
     public static void leerFichero(File fichero){
         if (!fichero.exists() || !fichero.canRead()) {
             System.out.println("ERROR. No puedo leer " + fichero);
@@ -26,6 +33,13 @@ class ListIt {
         }
     }
 
+    /*
+     * Este método permite leer el contenido de un directorio.
+     * 
+     * @param directorio El parámetro directorio define un elemento que puede contener una
+     * lista de ficheros que se pueden tratar.
+     * 
+    */
     public static void leerDirectorio(File directorio) {
         String [] listaFicheros = directorio.list();
         for (int i=0; i<listaFicheros.length; i++){
@@ -35,9 +49,15 @@ class ListIt {
         }
     }
 
-    public static void leerDocumento(File fichero) {
+    /*
+     * Este método permite leer el contenido de un documento línea a línea.
+     * 
+     * @param documento El parámetro documento define un fichero textual que se pretende tratar.
+     * 
+    */
+    public static void leerDocumento(File documento) {
         try {
-            FileReader fr = new FileReader(fichero);
+            FileReader fr = new FileReader(documento);
             BufferedReader br = new BufferedReader(fr);
             String linea;
             while ((linea=br.readLine()) != null)
@@ -45,7 +65,7 @@ class ListIt {
             fr.close();
             br.close();
         } catch (Exception e) {
-            System.out.println("ERROR al leer el fichero");
+            System.out.println("ERROR al leer el documento");
         }
     }
 
