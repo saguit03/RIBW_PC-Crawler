@@ -1,2 +1,1 @@
-C:\Users\Documents\GitHub\RIBW_PC-Crawler\ejemplo\dir1\dir\t1.txt
 Dir dir DIR

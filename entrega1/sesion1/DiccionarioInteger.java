@@ -1,22 +1,18 @@
-package entrega1;
-/*
- * ListIt.java: Lista contenido de ficheros textuales
- * (i) Felix R. Rodriguez, EPCC, Universidad de Extremadura, 2009-23
- * http://madiba.unex.es/
- */
+package entrega1.sesion1;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Map;
 import java.util.TreeMap;
 
-class ListIt {
-    public static Map<String, Integer> map;
+public class DiccionarioInteger {
+    public static Map<String, Integer> map = new TreeMap<String, Integer>();
 
-
-    /** 
+    /**
      * Lee un fichero válido cualquiera (directorio o documento). Se considera válido si existe y tiene permisos de lectura.
      * @param fichero Directorio o documento cuyo contenido se pretende leer, tokenizar y guardar.
-    */
+     */
     public static void leerFichero(File fichero){
         if (!fichero.exists() || !fichero.canRead()) {
             System.out.println("ERROR. No puedo leer " + fichero);
@@ -27,14 +23,8 @@ class ListIt {
             leerDirectorio(fichero);
         }
         else {
-            /* Interesante filtrar previamente archivos solo textuales, como los
-             * .txt, .java, .c, .cpp, etc., empleando metodos de la clase String:
-             * lastIndexOf('.'), substring (posic) y equals(".txt")...
-             */
-            // leerDocumento(fichero);
             try {
-                FichContPalabras.tokenizarFichero(map, fichero.getPath());
-//                FichContPalabras.imprimirFichero(fichero.getPath()+".out", map);
+                FichContPalabras.tokenizarFichero(map, fichero.getAbsolutePath());
             } catch (Exception e) {
                 System.out.println("ERROR al tokenizar el fichero");
             }
@@ -44,7 +34,7 @@ class ListIt {
     /**
      * Lee el contenido de un directorio.
      * @param directorio Lista de ficheros.
-    */
+     */
     public static void leerDirectorio(File directorio) {
         String [] listaFicheros = directorio.list();
         for (int i=0; i<listaFicheros.length; i++){
@@ -56,7 +46,7 @@ class ListIt {
     /**
      * Lee el contenido de un documento línea a línea.
      * @param documento Fichero textual.
-    */
+     */
     public static void leerDocumento(File documento) {
         try {
             FileReader fr = new FileReader(documento);
@@ -71,14 +61,4 @@ class ListIt {
         }
     }
 
-    public static void main (String [] args) throws Exception {
-        if (args.length<1) {
-            System.out.println("ERROR. Ejecutar: >java ListIt nombre_archivo");
-            return;
-        }
-        map = new TreeMap<String, Integer>();
-        File fichero = new File(args[0]);
-        leerFichero(fichero);
-        FichContPalabras.imprimirFichero(fichero.getPath()+".out", map);
-    }
 }

@@ -1,4 +1,4 @@
-package entrega1;
+package entrega1.sesion1;
 /*
  * FichContPalabras.java: Contabiliza palabras contenidas en un fichero
  * (i) Felix R. Rguez., EPCC, Universidad de Extremadura, 2009-23
@@ -9,6 +9,7 @@ import java.io.*;
 import java.util.*;
 
 public class FichContPalabras {
+
 
     /**
      * Tokeniza un fichero de texto y devuelve un mapa con las palabras y su frecuencia.
