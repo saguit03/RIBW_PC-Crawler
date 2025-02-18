@@ -3,6 +3,7 @@ package entrega1;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.TreeMap;
 
 public class PCCrawler {
@@ -18,6 +19,44 @@ public class PCCrawler {
 
         System.out.println(Diccionario.buscarToken("gatos"));
 
+        Scanner scanner = new Scanner(System.in);
+        boolean terminarConsulta = false;
+
+        while (!terminarConsulta) {
+            System.out.println("------------------");
+            System.out.println("CONSULTA DE TOKENS");
+            System.out.println("------------------");
+            System.out.println("1. Buscar un token en el diccionario");
+            System.out.println("2. Terminar consulta");
+            System.out.print("Opción seleccioanda: ");
+            
+            int opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("Token a consultar: ");
+                    String token = scanner.nextLine();
+                    int frecuenciaGlobal = Diccionario.buscarToken(token);
+                    
+                    if (frecuenciaGlobal != 0) {
+                        System.out.println("El token " + token + " se encuentra " + frecuenciaGlobal + " veces.");
+                    } else {
+                        System.out.println("ERROR. No existe el token " + token + ".");
+                    }
+                    break;
+
+                case 2:
+                    terminarConsulta = true;
+                    System.out.println("Fin de la consulta.");
+                    break;
+
+                default:
+                    System.out.println("ERROR. Opción no válida.");
+                    break;
+            }
+        }
+        scanner.close();
     }
 
 }

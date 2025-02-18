@@ -10,12 +10,13 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 public class Diccionario {
+
     public static Map<String, Ocurrencia> map = new TreeMap<String, Ocurrencia>();
 
     /**
-     * Tokeniza un fichero de texto y devuelve un mapa con las palabras y su frecuencia.
+     * Tokeniza un fichero de texto y almacena los resultados en un mapa.
      * @param fichEntrada Fichero de texto a tokenizar.
-     * @param map Mapa ya inicializado con las palabras y su frecuencia.
+     * @param map Mapa ya inicializado que almacena los tokens y su frecuencia.
      * @throws IOException Si no se puede leer el fichero.
      */
     public static void tokenizarFichero(Map <String, Ocurrencia> map, File fichEntrada) throws IOException {
@@ -33,7 +34,6 @@ public class Diccionario {
                 else {
                     Ocurrencia ocurrencia = (Ocurrencia) o;
                     ocurrencia.incrementarFrecuencia(fichEntrada);
-
                 }
             }
         }
@@ -41,7 +41,7 @@ public class Diccionario {
     }
 
     /**
-     * Lee un fichero válido cualquiera (directorio o documento). Se considera válido si existe y tiene permisos de lectura.
+     * Lee un fichero válido cualquiera. Se considera válido si existe y tiene permisos de lectura.
      * @param fichero Directorio o documento cuyo contenido se pretende leer, tokenizar y guardar.
      */
     public static void leerFichero(File fichero){
@@ -73,10 +73,15 @@ public class Diccionario {
         }
     }
 
+    /**
+     * Busca el token indicado y devuelve su frecuencia. En caso de no encontrarse, devuelve 0.
+     * @param token Término del cual se pretende obtener su frecuencia.
+     * @return La frecuencia del término.
+     */
     public static int buscarToken(String token){
         if(map.containsKey(token)){
             Ocurrencia ocurrencia = map.get(token);
-            return ocurrencia.getTF();
+            return ocurrencia.getFrecuenciaGlobal();
         } else {
             return 0;
         }

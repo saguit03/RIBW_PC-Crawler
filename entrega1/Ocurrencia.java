@@ -6,10 +6,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class Ocurrencia implements Serializable {
-        /**
-         * Frecuencia de término global
-         */
-        Integer TF;
+
+        Integer frecuenciaGlobal;
 
         /**
          * Frecuencia de término por documento.
@@ -18,18 +16,44 @@ public class Ocurrencia implements Serializable {
          */
         Map<String, Integer> map = new TreeMap<String, Integer>();
 
-        int getTF(){return TF;}
+        /**
+         * Constructor de  Ocurrencia
+         * @param fichero Documento de texto al cual pertenece el token.
+         */
+        Ocurrencia(File fichero){
+            frecuenciaGlobal = 1;
+            map.put(fichero.getAbsolutePath(), 1);
+        }
 
+        /**
+         * Obtiene la frecuencia global de un token.
+         * @return Frecuencia del término.
+         */
+        int getFrecuenciaGlobal(){
+            return frecuenciaGlobal;
+        }
+
+        /**
+         * Incrementa la frecuencia global y local de un token.
+         * @param fichero Documento de texto al cual pertenece el token.
+         */
         void incrementarFrecuencia(File fichero){
-            incTF(fichero);
-            incLTF(fichero);
+            incFrecuenciaGlobal();
+            incFrecuenciaLocal(fichero);
         }
 
-        void incTF(File fichero){
-            TF++;
+        /**
+         * Actualiza la frecuencia global del token.
+         */
+        void incFrecuenciaGlobal(){
+            frecuenciaGlobal++;
         }
 
-        void incLTF(File fichero){
+        /**
+         * Actualiza la frecuencia local del token. Si no existía una ocurrencia del token, se inserta.
+         * @param fichero Documento de texto al cual pertenece el token.
+         */
+        void incFrecuenciaLocal(File fichero){
             String path = fichero.getAbsolutePath();
             if(map.containsKey(path)){
                 map.put(path, map.get(path)+1);
@@ -38,17 +62,11 @@ public class Ocurrencia implements Serializable {
             }
         }
 
-        Ocurrencia(File fichero){
-            TF = 1;
-            map.put(fichero.getAbsolutePath(), 1);
-        }
-
-
         @Override
         public String toString() {
-            return "Ocurrencia{" +
-                    "TF=" + TF +
-                    ", map=" + map +
-                    '}';
+            return "Ocurrencia{\n" +
+                    "\tFrecuenciaGlobal= " + frecuenciaGlobal + ",\n" +
+                    "\tDocumento= " + map + "\n" +
+                    "}";
         }
 }
