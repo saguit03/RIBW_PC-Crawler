@@ -11,9 +11,10 @@ public class DiccionarioInteger {
 
     /**
      * Lee un fichero válido cualquiera (directorio o documento). Se considera válido si existe y tiene permisos de lectura.
+     *
      * @param fichero Directorio o documento cuyo contenido se pretende leer, tokenizar y guardar.
      */
-    public static void leerFichero(File fichero){
+    public static void leerFichero(File fichero) {
         if (!fichero.exists() || !fichero.canRead()) {
             System.out.println("ERROR. No puedo leer " + fichero);
             return;
@@ -21,8 +22,7 @@ public class DiccionarioInteger {
 
         if (fichero.isDirectory()) {
             leerDirectorio(fichero);
-        }
-        else {
+        } else {
             try {
                 FichContPalabras.tokenizarFichero(map, fichero.getAbsolutePath());
             } catch (Exception e) {
@@ -33,18 +33,20 @@ public class DiccionarioInteger {
 
     /**
      * Lee el contenido de un directorio.
+     *
      * @param directorio Lista de ficheros.
      */
     public static void leerDirectorio(File directorio) {
-        String [] listaFicheros = directorio.list();
-        for (int i=0; i<listaFicheros.length; i++){
-            System.out.println( listaFicheros[i]+"-----");
-            leerFichero(new File(directorio.getPath()+"/"+listaFicheros[i]));
+        String[] listaFicheros = directorio.list();
+        for (int i = 0; i < listaFicheros.length; i++) {
+            System.out.println(listaFicheros[i] + "-----");
+            leerFichero(new File(directorio.getPath() + "/" + listaFicheros[i]));
         }
     }
 
     /**
      * Lee el contenido de un documento línea a línea.
+     *
      * @param documento Fichero textual.
      */
     public static void leerDocumento(File documento) {
@@ -52,7 +54,7 @@ public class DiccionarioInteger {
             FileReader fr = new FileReader(documento);
             BufferedReader br = new BufferedReader(fr);
             String linea;
-            while ((linea=br.readLine()) != null)
+            while ((linea = br.readLine()) != null)
                 System.out.println(linea);
             fr.close();
             br.close();

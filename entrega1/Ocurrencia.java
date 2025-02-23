@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class Ocurrencia implements Serializable {
+    /**
+     * Número total de veces que aparece un token en todos los documentos
+     */
     Integer frecuenciaGlobal;
 
     /**

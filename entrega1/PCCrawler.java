@@ -10,11 +10,29 @@ public class PCCrawler {
             return;
         }
         File fichero = new File(args[0]);
-        Diccionario.leerFichero(fichero);
-        AlmacenarObjeto.salvarObjeto(Diccionario.map, "diccionario.ser");
-        AlmacenarObjeto.cargarObjeto("diccionario.ser");
 
         Scanner scanner = new Scanner(System.in);
+        int tipoDiccionario = 0;
+        while (tipoDiccionario < 1 || tipoDiccionario > 3) {
+            System.out.println("Elige un tipo de diccionario:");
+            System.out.println("1. Recursivo");
+            System.out.println("2. Iterativo");
+            tipoDiccionario = scanner.nextInt();
+        }
+
+        Diccionario diccionario;
+        if (tipoDiccionario == 1) {
+            System.out.println("Creando diccionario recursivo...");
+            diccionario = new DiccionarioRecursivo();
+        } else {
+            System.out.println("Creando diccionario iterativo...");
+            diccionario = new DiccionarioIterativo();
+        }
+
+        diccionario.leerFichero(fichero);
+        AlmacenarObjeto.salvarObjeto(diccionario.getMap(), "diccionario.ser");
+        AlmacenarObjeto.cargarObjeto("diccionario.ser");
+
         boolean terminarConsulta = false;
 
         while (!terminarConsulta) {
@@ -31,12 +49,12 @@ public class PCCrawler {
 
             switch (opcion) {
                 case 0:
-                    Diccionario.mostrarDiccionario();
+                    diccionario.mostrarDiccionario();
                     break;
                 case 1:
                     System.out.print("Token a consultar: ");
                     String token = scanner.nextLine();
-                    int frecuenciaGlobal = Diccionario.buscarToken(token);
+                    int frecuenciaGlobal = diccionario.buscarToken(token);
 
                     if (frecuenciaGlobal != 0) {
                         System.out.println("El token «" + token + "» se encuentra " + frecuenciaGlobal + " veces.");
