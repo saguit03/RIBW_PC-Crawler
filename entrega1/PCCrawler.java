@@ -96,7 +96,7 @@ public class PCCrawler {
     }
 
     public static void showHelp() {
-        System.out.println("ERROR. Ejecutar: >java PCCrawler [-menu] [-cargar] [-iter] [-recur] [-file nombre_archivo] [-all] [-search tokens_a_buscar]");
+        System.out.println(">java PCCrawler [-menu] [-cargar] [-iter] [-recur] [-file nombre_archivo] [-all] [-search tokens_a_buscar]");
     }
 
     public static void main(String[] args) throws Exception {
@@ -143,6 +143,7 @@ public class PCCrawler {
                         for (int j = ++i; j < args.length; j++) {
                             searchTokens.add(args[j]);
                         }
+                        i = args.length;
                     } else {
                         System.err.println("Error: -search requiere una lista de tokens.");
                         return;
@@ -152,6 +153,7 @@ public class PCCrawler {
                 case "-h":
                 default:
                     showHelp();
+                    break;
             }
         }
 

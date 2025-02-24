@@ -64,10 +64,10 @@ public class DiccionarioBase implements Diccionario {
     }
 
     /**
-     * Busca el token indicado y devuelve su frecuencia. En caso de no encontrarse, devuelve 0.
+     * Busca el token indicado y devuelve su frecuencia global. En caso de no encontrarse, devuelve 0.
      *
      * @param token Término del cual se pretende obtener su frecuencia.
-     * @return La frecuencia del término.
+     * @return La frecuencia global del término.
      */
     @Override
     public int buscarToken(String token) {
@@ -79,11 +79,19 @@ public class DiccionarioBase implements Diccionario {
         }
     }
 
+    /**
+     * Obtiene el mapa de términos y ocurrencias
+     * @return El mapa de términos y ocurrencias
+     */
     @Override
     public Map<String, Ocurrencia> getMap() {
         return map;
     }
 
+    /**
+     * Actualiza el mapa de términos y ocurrencias
+     * @param map El nuevo mapa de términos y ocurrencias
+     */
     @Override
     public void setMap(Map<String, Ocurrencia> map){
         this.map = map;

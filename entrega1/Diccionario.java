@@ -28,10 +28,10 @@ public interface Diccionario {
 
 
     /**
-     * Busca el token indicado y devuelve su frecuencia. En caso de no encontrarse, devuelve 0.
+     * Busca el token indicado y devuelve su frecuencia global. En caso de no encontrarse, devuelve 0.
      *
      * @param token Término del cual se pretende obtener su frecuencia.
-     * @return La frecuencia del término.
+     * @return La frecuencia global del término.
      */
     int buscarToken(String token);
 
@@ -42,5 +42,9 @@ public interface Diccionario {
      */
     Map<String, Ocurrencia> getMap();
 
+    /**
+     * Actualiza el mapa de tokens y ocurrencias
+     * @param map El nuevo mapa de tokens y ocurrencias
+     */
     void setMap(Map<String, Ocurrencia> map);
 }
