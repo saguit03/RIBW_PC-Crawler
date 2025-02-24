@@ -15,10 +15,9 @@ public interface Diccionario {
      * Tokeniza un fichero de texto y almacena los resultados en un mapa.
      *
      * @param fichEntrada Fichero de texto a tokenizar.
-     * @param map         Mapa ya inicializado que almacena los tokens y su frecuencia.
      * @throws IOException Si no se puede leer el fichero.
      */
-    void tokenizarFichero(Map<String, Ocurrencia> map, File fichEntrada) throws IOException;
+    void tokenizarFichero(File fichEntrada) throws IOException;
 
     /**
      * Lee un fichero válido cualquiera. Se considera válido si existe y tiene permisos de lectura.
@@ -42,4 +41,6 @@ public interface Diccionario {
      * @return El mapa de tokens y ocurrencias
      */
     Map<String, Ocurrencia> getMap();
+
+    void setMap(Map<String, Ocurrencia> map);
 }

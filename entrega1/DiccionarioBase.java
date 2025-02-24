@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 public class DiccionarioBase implements Diccionario {
 
-    public Map<String, Ocurrencia> map = new TreeMap<String, Ocurrencia>();
+    private static Map<String, Ocurrencia> map = new TreeMap<String, Ocurrencia>();
 
     /**
      * Muestra todos los tokens del diccionario y sus ocurrencias
@@ -30,11 +30,10 @@ public class DiccionarioBase implements Diccionario {
      * Tokeniza un fichero de texto y almacena los resultados en un mapa.
      *
      * @param fichEntrada Fichero de texto a tokenizar.
-     * @param map         Mapa ya inicializado que almacena los tokens y su frecuencia.
      * @throws IOException Si no se puede leer el fichero.
      */
     @Override
-    public void tokenizarFichero(Map<String, Ocurrencia> map, File fichEntrada) throws IOException {
+    public void tokenizarFichero(File fichEntrada) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fichEntrada));
         String linea;
 
@@ -83,6 +82,11 @@ public class DiccionarioBase implements Diccionario {
     @Override
     public Map<String, Ocurrencia> getMap() {
         return map;
+    }
+
+    @Override
+    public void setMap(Map<String, Ocurrencia> map){
+        this.map = map;
     }
 
 }

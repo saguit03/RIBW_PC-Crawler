@@ -18,7 +18,7 @@ public class DiccionarioRecursivo extends DiccionarioBase {
             leerDirectorio(fichero);
         } else {
             try {
-                tokenizarFichero(map, fichero);
+                tokenizarFichero(fichero);
             } catch (Exception e) {
                 System.out.println("ERROR al tokenizar el fichero");
             }

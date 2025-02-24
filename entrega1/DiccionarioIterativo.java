@@ -16,25 +16,25 @@ public class DiccionarioIterativo extends DiccionarioBase {
             System.out.println("ERROR. No puedo leer " + original);
             return;
         }
-        Queue<File> frontera = new LinkedList<>();
-        frontera.add(original);
+        Queue<String> frontera = new LinkedList<>();
+        frontera.add(original.getAbsolutePath());
 
         while (!frontera.isEmpty()) {
-            File fichero = frontera.poll();
-
-            if (fichero == null) {
+            String currentFile = frontera.poll();
+            if (currentFile == null) {
                 continue;
             }
+            File fichero = new File(currentFile);
 
             System.out.println("Procesando fichero " + fichero.getAbsolutePath());
             if (fichero.isDirectory()) {
                 String[] listaFicheros = fichero.list();
                 for (int i = 0; i < listaFicheros.length; i++) {
-                    frontera.add(new File(fichero.getAbsolutePath() + "\\" + listaFicheros[i]));
+                    frontera.offer(fichero.getAbsolutePath() + "\\" + listaFicheros[i]);
                 }
             } else {
                 try {
-                    tokenizarFichero(map, fichero);
+                    tokenizarFichero(fichero);
                 } catch (Exception e) {
                     System.out.println("ERROR al tokenizar el fichero");
                 }

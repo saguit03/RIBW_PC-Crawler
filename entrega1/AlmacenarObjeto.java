@@ -12,16 +12,18 @@ public class AlmacenarObjeto {
      *
      * @param fichero Fichero que contiene el objeto serializable.
      */
-    public static void cargarObjeto(String fichero) {
+    public static Map<String, Ocurrencia> cargarObjeto(String fichero) {
+        Map<String, Ocurrencia> map = null;
         try {
             FileInputStream fis = new FileInputStream(fichero);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            Map<String, Ocurrencia> map = (Map<String, Ocurrencia>) ois.readObject();
+            map = (Map<String, Ocurrencia>) ois.readObject();
             ois.close();
             fis.close();
         } catch (Exception e) {
             System.out.println(e);
         }
+        return map;
     }
 
     /**
