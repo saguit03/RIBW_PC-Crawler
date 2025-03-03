@@ -31,9 +31,9 @@ public interface Diccionario {
      * Busca el token indicado y devuelve su frecuencia global. En caso de no encontrarse, devuelve 0.
      *
      * @param token Término del cual se pretende obtener su frecuencia.
-     * @return La frecuencia global del término.
+     * @return La ocurrencia
      */
-    int buscarToken(String token);
+    String buscarToken(String token);
 
     /**
      * Obtiene el mapa de tokens y ocurrencias

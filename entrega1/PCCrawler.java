@@ -86,10 +86,10 @@ public class PCCrawler {
     }
 
     public static void buscarToken(String token) {
-        int frecuenciaGlobal = diccionario.buscarToken(token);
+        String ocurrencia = diccionario.buscarToken(token);
 
-        if (frecuenciaGlobal != 0) {
-            System.out.println("El token «" + token + "» se encuentra " + frecuenciaGlobal + " veces.");
+        if (ocurrencia != "") {
+            System.out.println("Se ha encontrado el token «" + token + "»: "+ ocurrencia);
         } else {
             System.out.println("ERROR. No existe el token «" + token + "».");
         }
@@ -157,18 +157,22 @@ public class PCCrawler {
             }
         }
 
-        if (tipoDiccionario == TipoDiccionario.NINGUNO) {
-            showTipoDiccionario();
-        }
+        switch (tipoDiccionario) {
+            case CARGADO:
+                diccionario.setMap(AlmacenarObjeto.cargarObjeto("diccionario.ser"));
+                break;
+            case ITERATIVO:
+                System.out.println("Creando diccionario iterativo...");
+                diccionario = new DiccionarioIterativo();
+                break;
+            case RECURSIVO:
 
-        if (tipoDiccionario == TipoDiccionario.ITERATIVO) {
-            System.out.println("Creando diccionario iterativo...");
-            diccionario = new DiccionarioIterativo();
-        } else if (tipoDiccionario == TipoDiccionario.RECURSIVO) {
-            System.out.println("Creando diccionario recursivo...");
-            diccionario = new DiccionarioRecursivo();
-        } else if (tipoDiccionario == TipoDiccionario.CARGADO) {
-            diccionario.setMap(AlmacenarObjeto.cargarObjeto("diccionario.ser"));
+                System.out.println("Creando diccionario recursivo...");
+                diccionario = new DiccionarioRecursivo();
+                break;
+            default:
+                showTipoDiccionario();
+                break;
         }
 
         if (nuevoDiccionario) {

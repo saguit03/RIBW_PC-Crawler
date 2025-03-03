@@ -18,12 +18,14 @@ public class DiccionarioBase implements Diccionario {
     @Override
     public void mostrarDiccionario() {
         System.out.println("************ DICCIONARIO ************");
-        for (Map.Entry<String, Ocurrencia> entrada : map.entrySet()) {
-            String token = entrada.getKey();
-            Ocurrencia ocurrencia = entrada.getValue();
-            System.out.println(token + " -> " + ocurrencia.toString());
-            System.out.println("************");
-        }
+        map.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .forEach(entrada -> {
+                    String token = entrada.getKey();
+                    Ocurrencia ocurrencia = entrada.getValue();
+                    System.out.println(token + " -> " + ocurrencia.toString());
+                    System.out.println("************");
+                });
     }
 
     /**
@@ -70,12 +72,12 @@ public class DiccionarioBase implements Diccionario {
      * @return La frecuencia global del término.
      */
     @Override
-    public int buscarToken(String token) {
+    public String buscarToken(String token) {
         if (map.containsKey(token)) {
             Ocurrencia ocurrencia = map.get(token);
-            return ocurrencia.getFrecuenciaGlobal();
+            return ocurrencia.toString();
         } else {
-            return 0;
+            return "";
         }
     }
 
