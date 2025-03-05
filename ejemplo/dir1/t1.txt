@@ -1,2 +1,1 @@
-C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\ejemplo\dir1\t1.txt
-ok Ok ok OK !k
+ok Ok ok OK k

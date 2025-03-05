@@ -1,0 +1,11 @@
+Queue <File> frontera = new LinkedList<>();
+File fichero = new File (...);
+frontera.insert(fichero.list);
+while (!frontera.isEmpty()){
+...
+}
+
+_-----------------
+
+Queue <String> frontera = new LinkedList<>();
+frontera.offer(fichero.getAbsolutePath()+"\\"+listaficheros[i]); //offer es insertar
