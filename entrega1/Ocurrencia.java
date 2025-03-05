@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Ocurrencia implements Serializable {
+public class Ocurrencia implements Serializable, Comparable<Ocurrencia> {
     /**
      * Número total de veces que aparece un token en todos los documentos
      */
@@ -100,7 +100,8 @@ public class Ocurrencia implements Serializable {
      */
     public String getDocumentos() {
         StringBuilder sb = new StringBuilder();
-        map.keySet().forEach(k -> sb.append("\n\t").append(map.get(k)).append(" ocurrencia(s) en ").append(k));
+
+        map.keySet().stream().sorted().forEach(k -> sb.append("\n\t").append(map.get(k)).append(" ocurrencia(s) en ").append(k));
         return sb.toString();
     }
 
@@ -111,6 +112,11 @@ public class Ocurrencia implements Serializable {
      */
     @Override
     public String toString() {
-        return frecuenciaGlobal + " ocurrencias, en " + map.size() + " documentos: " + getDocumentos();
+        return frecuenciaGlobal + " ocurrencias, en " + map.size() + " documentos:" + getDocumentos();
+    }
+
+    @Override
+    public int compareTo(Ocurrencia o) {
+        return Integer.compare(o.getFrecuenciaGlobal(),this.getFrecuenciaGlobal());
     }
 }
