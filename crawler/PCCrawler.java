@@ -1,4 +1,4 @@
-package entrega1;
+package crawler;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ public class PCCrawler {
     }
 
     public static void buscarToken(String token) {
-        String ocurrencia = diccionario.buscarToken(token);
+        String ocurrencia = diccionario.buscarToken(token.toLowerCase());
 
         if (ocurrencia != "") {
             System.out.println("Se ha encontrado el token «" + token + "»: "+ ocurrencia);
@@ -159,7 +159,7 @@ public class PCCrawler {
 
         switch (tipoDiccionario) {
             case CARGADO:
-                diccionario.setMap(AlmacenarObjeto.cargarObjeto("diccionario.ser"));
+                diccionario.setMap(AlmacenarObjeto.cargarDiccionario("diccionario.ser"));
                 break;
             case ITERATIVO:
                 System.out.println("Creando diccionario iterativo...");
@@ -177,7 +177,7 @@ public class PCCrawler {
 
         if (nuevoDiccionario) {
             diccionario.leerFichero(new File(nombreFichero));
-            AlmacenarObjeto.salvarObjeto(diccionario.getMap(), "diccionario.ser");
+            AlmacenarObjeto.guardarDiccionario(diccionario.getMap(), "diccionario.ser");
         }
 
         if (showAll) {

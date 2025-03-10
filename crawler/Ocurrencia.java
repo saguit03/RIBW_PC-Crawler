@@ -1,4 +1,4 @@
-package entrega1;
+package crawler;
 
 import java.io.File;
 import java.io.Serializable;

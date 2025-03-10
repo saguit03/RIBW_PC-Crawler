@@ -1,4 +1,4 @@
-package entrega1.sesion1;
+package crawler.sesion1;
 
 import java.io.BufferedReader;
 import java.io.File;

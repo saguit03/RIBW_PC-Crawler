@@ -1,4 +1,4 @@
-package entrega1;
+package crawler;
 
 public enum TipoDiccionario {
     NINGUNO,

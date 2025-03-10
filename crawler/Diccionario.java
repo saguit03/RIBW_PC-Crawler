@@ -1,4 +1,6 @@
-package entrega1;
+package crawler;
+
+import thesauro.Thesauro;
 
 import java.io.File;
 import java.io.IOException;

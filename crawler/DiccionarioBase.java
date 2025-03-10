@@ -1,4 +1,7 @@
-package entrega1;
+package crawler;
+
+import thesauro.AlmacenarThesauro;
+import thesauro.Thesauro;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,6 +14,15 @@ import java.util.TreeMap;
 public class DiccionarioBase implements Diccionario {
 
     private static Map<String, Ocurrencia> map = new TreeMap<String, Ocurrencia>();
+    private static Thesauro thesauro;
+
+    static {
+        try {
+            thesauro = new Thesauro();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * Muestra todos los tokens del diccionario y sus ocurrencias
@@ -26,6 +38,7 @@ public class DiccionarioBase implements Diccionario {
                     System.out.println(token + " -> " + ocurrencia.toString());
                     System.out.println("************");
                 });
+        System.out.println("Hay un total de "+map.size()+" términos");
     }
 
     /**
@@ -43,12 +56,14 @@ public class DiccionarioBase implements Diccionario {
             StringTokenizer st = new StringTokenizer(linea, " ,.:;(){}¡!°\"¿?\t'%/\\|[]<=>&#+*$-¨^~\n@");
             while (st.hasMoreTokens()) {
                 String s = st.nextToken();
-                Object o = map.get(s);
-                if (o == null) {
-                    map.put(s, new Ocurrencia(fichEntrada));
-                } else {
-                    Ocurrencia ocurrencia = (Ocurrencia) o;
-                    ocurrencia.incrementarFrecuencia(fichEntrada);
+                if(thesauro.buscarToken(s)){
+                    Object o = map.get(s);
+                    if (o == null) {
+                        map.put(s, new Ocurrencia(fichEntrada));
+                    } else {
+                        Ocurrencia ocurrencia = (Ocurrencia) o;
+                        ocurrencia.incrementarFrecuencia(fichEntrada);
+                    }
                 }
             }
         }
@@ -83,6 +98,7 @@ public class DiccionarioBase implements Diccionario {
 
     /**
      * Obtiene el mapa de términos y ocurrencias
+     *
      * @return El mapa de términos y ocurrencias
      */
     @Override
@@ -92,10 +108,11 @@ public class DiccionarioBase implements Diccionario {
 
     /**
      * Actualiza el mapa de términos y ocurrencias
+     *
      * @param map El nuevo mapa de términos y ocurrencias
      */
     @Override
-    public void setMap(Map<String, Ocurrencia> map){
+    public void setMap(Map<String, Ocurrencia> map) {
         this.map = map;
     }
 
