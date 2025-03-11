@@ -1,7 +1,10 @@
 package crawler;
 
+import thesauro.Thesauro;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -46,6 +49,8 @@ public class PCCrawler {
             System.out.println("0. Consultar diccionario");
             System.out.println("1. Buscar un token en el diccionario");
             System.out.println("2. Terminar consulta");
+            System.out.println("3. Consultar Thesauro");
+            System.out.println("4. Buscar un token en el Thesauro");
             System.out.print("Opción seleccionada: ");
 
             try {
@@ -55,9 +60,16 @@ public class PCCrawler {
                         diccionario.mostrarDiccionario();
                         break;
                     case 1:
-                        buscarToken();
+                        buscarToken(scanner);
+                        break;
                     case 2:
                         terminar = true;
+                        break;
+                    case 3:
+                        consultarThesauro(scanner);
+                        break;
+                    case 4:
+                        buscarThesauro(scanner);
                         break;
                     default:
                         System.out.println("Elige una opción válida");
@@ -70,11 +82,10 @@ public class PCCrawler {
         scanner.close();
     }
 
-    public static void buscarToken() {
+    public static void buscarToken(Scanner scanner) {
         boolean terminar = false;
-        Scanner scanner = new Scanner(System.in);
         while (!terminar) {
-            System.out.print("Token a consultar: ");
+            System.out.print("Token a consultar (escribe 0 para terminar): ");
             String token = scanner.nextLine();
             if (token.equals("0")) {
                 terminar = true;
@@ -82,16 +93,52 @@ public class PCCrawler {
                 buscarToken(token);
             }
         }
-        scanner.close();
+    }
+
+    public static void buscarThesauro(Scanner scanner) {
+        boolean terminar = false;
+        while (!terminar) {
+            System.out.print("Token a consultar en el Thesauro (escribe 0 para terminar): ");
+            String token = scanner.nextLine();
+            if (token.equals("0")) {
+                terminar = true;
+            } else {
+                buscarThesauro(token);
+            }
+        }
     }
 
     public static void buscarToken(String token) {
         String ocurrencia = diccionario.buscarToken(token.toLowerCase());
-
         if (ocurrencia != "") {
-            System.out.println("Se ha encontrado el token «" + token + "»: "+ ocurrencia);
+            System.out.println("Se ha encontrado el token «" + token + "»: " + ocurrencia);
         } else {
             System.out.println("ERROR. No existe el token «" + token + "».");
+        }
+    }
+
+    public static void buscarThesauro(String token) {
+        String sinonimos = Thesauro.getToken(token.toLowerCase());
+        if (sinonimos != "") {
+            System.out.println("«" + token + "» existe en el Thesauro");
+            if (!token.equals(sinonimos)) {
+                System.out.println(sinonimos);
+            }
+        } else {
+            System.out.println("ERROR. No existe «" + token + "» en el Thesauro.");
+        }
+    }
+
+    public static void consultarThesauro(Scanner scanner) {
+        boolean terminar = false;
+        while (!terminar) {
+            System.out.print("Escribe una cadena para buscar en el Thesauro (escribe 0 para terminar): ");
+            String token = scanner.nextLine();
+            if (token.equals("0")) {
+                terminar = true;
+            } else {
+                Thesauro.mostrarDiccionario(token.toLowerCase());
+            }
         }
     }
 
@@ -140,9 +187,7 @@ public class PCCrawler {
                     break;
                 case "-search":
                     if (i + 1 < args.length) {
-                        for (int j = ++i; j < args.length; j++) {
-                            searchTokens.add(args[j]);
-                        }
+                        searchTokens.addAll(Arrays.asList(args).subList(++i, args.length));
                         i = args.length;
                     } else {
                         System.err.println("Error: -search requiere una lista de tokens.");

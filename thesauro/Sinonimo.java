@@ -1,10 +1,11 @@
 package thesauro;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Sinonimo implements Serializable {
+public class Sinonimo implements Serializable, Comparable<Sinonimo> {
     /**
      * Frecuencia de término por documento.
      * String: Sinónimo
@@ -19,9 +20,31 @@ public class Sinonimo implements Serializable {
         map = new TreeMap<String, Boolean>();
     }
 
-    public void addSinonimo(String sinonimo) {
+    /**
+     * Constructor de Sinónimo
+     */
+    Sinonimo(String token, List<String> listaSinonimos) {
+        addSinonimos(token, listaSinonimos);
+    }
 
-        map.put(sinonimo.replaceAll("\\([^)]*\\)", "").trim(), sinonimo.contains("(fig.)"));
+    protected String quitarParentesis(String sinonimo) {
+        return sinonimo.replaceAll("\\([^)]*\\)", "").trim();
+    }
+
+    public void addSinonimo(String sinonimo) {
+        map.put(quitarParentesis(sinonimo), sinonimo.contains("(fig.)"));
+    }
+
+
+    public void addSinonimos(String token, List<String> listaSinonimos) {
+        for (String sinonimo : listaSinonimos) {
+            addSinonimo(sinonimo);
+        }
+        removeSinonimo(token); // Para no incluir al propio token como sinónimo
+    }
+
+    public void removeSinonimo(String sinonimo) {
+        map.remove(quitarParentesis(sinonimo));
     }
 
     public boolean buscarSinonimo(String sinonimo) {
@@ -45,6 +68,18 @@ public class Sinonimo implements Serializable {
         return sb.toString();
     }
 
+    public Map<String, Boolean> getMap() {
+        return map;
+    }
+
+    public int getSize() {
+        return map.size();
+    }
+
+    public void setMap(Map<String, Boolean> map) {
+        this.map = map;
+    }
+
     /**
      * Devuelve la representación en cadena del Sinónimo.
      *
@@ -55,4 +90,8 @@ public class Sinonimo implements Serializable {
         return getSinonimos();
     }
 
+    @Override
+    public int compareTo(Sinonimo s) {
+        return Integer.compare(s.getMap().size(), this.getMap().size());
+    }
 }

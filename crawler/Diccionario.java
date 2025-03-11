@@ -1,7 +1,5 @@
 package crawler;
 
-import thesauro.Thesauro;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -46,6 +44,7 @@ public interface Diccionario {
 
     /**
      * Actualiza el mapa de tokens y ocurrencias
+     *
      * @param map El nuevo mapa de tokens y ocurrencias
      */
     void setMap(Map<String, Ocurrencia> map);

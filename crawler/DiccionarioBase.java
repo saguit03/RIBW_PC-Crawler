@@ -1,6 +1,5 @@
 package crawler;
 
-import thesauro.AlmacenarThesauro;
 import thesauro.Thesauro;
 
 import java.io.BufferedReader;
@@ -13,8 +12,8 @@ import java.util.TreeMap;
 
 public class DiccionarioBase implements Diccionario {
 
+    private static final Thesauro thesauro;
     private static Map<String, Ocurrencia> map = new TreeMap<String, Ocurrencia>();
-    private static Thesauro thesauro;
 
     static {
         try {
@@ -38,7 +37,7 @@ public class DiccionarioBase implements Diccionario {
                     System.out.println(token + " -> " + ocurrencia.toString());
                     System.out.println("************");
                 });
-        System.out.println("Hay un total de "+map.size()+" términos");
+        System.out.println("Hay un total de " + map.size() + " términos");
     }
 
     /**
@@ -56,7 +55,7 @@ public class DiccionarioBase implements Diccionario {
             StringTokenizer st = new StringTokenizer(linea, " ,.:;(){}¡!°\"¿?\t'%/\\|[]<=>&#+*$-¨^~\n@");
             while (st.hasMoreTokens()) {
                 String s = st.nextToken();
-                if(thesauro.buscarToken(s)){
+                if (Thesauro.buscarToken(s.toLowerCase())) {
                     Object o = map.get(s);
                     if (o == null) {
                         map.put(s, new Ocurrencia(fichEntrada));
@@ -113,7 +112,7 @@ public class DiccionarioBase implements Diccionario {
      */
     @Override
     public void setMap(Map<String, Ocurrencia> map) {
-        this.map = map;
+        DiccionarioBase.map = map;
     }
 
 }
