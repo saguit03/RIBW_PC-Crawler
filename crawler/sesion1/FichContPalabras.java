@@ -1,4 +1,4 @@
-package entrega1.sesion1;
+package crawler.sesion1;
 /*
  * FichContPalabras.java: Contabiliza palabras contenidas en un fichero
  * (i) Felix R. Rguez., EPCC, Universidad de Extremadura, 2009-23

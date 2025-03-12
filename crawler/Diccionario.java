@@ -1,4 +1,4 @@
-package entrega1;
+package crawler;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +44,7 @@ public interface Diccionario {
 
     /**
      * Actualiza el mapa de tokens y ocurrencias
+     *
      * @param map El nuevo mapa de tokens y ocurrencias
      */
     void setMap(Map<String, Ocurrencia> map);

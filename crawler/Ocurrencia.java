@@ -1,4 +1,4 @@
-package entrega1;
+package crawler;
 
 import java.io.File;
 import java.io.Serializable;
@@ -117,6 +117,6 @@ public class Ocurrencia implements Serializable, Comparable<Ocurrencia> {
 
     @Override
     public int compareTo(Ocurrencia o) {
-        return Integer.compare(o.getFrecuenciaGlobal(),this.getFrecuenciaGlobal());
+        return Integer.compare(o.getFrecuenciaGlobal(), this.getFrecuenciaGlobal());
     }
 }

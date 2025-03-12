@@ -1,18 +1,17 @@
-"C:\Program Files\Java\jdk-17\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2024.2.2\lib\idea_rt.jar=56129:C:\Program Files\JetBrains\IntelliJ IDEA 2024.2.2\bin" -Dfile.encoding=UTF-8 -classpath C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\out\production\RIBW_PC-Crawler entrega1.PCCrawler C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\ejemplo
+"C:\Program Files\Java\jdk-17\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2024.2.2\lib\idea_rt.jar=56122:C:\Program Files\JetBrains\IntelliJ IDEA 2024.2.2\bin" -Dfile.encoding=UTF-8 -classpath C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\out\production\RIBW_PC-Crawler crawler.PCCrawler C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\ejemplo
 Elige un tipo de diccionario:
 1. Recursivo
 2. Iterativo
-2
-Creando diccionario iterativo...
-Procesando fichero C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\ejemplo
-Procesando fichero C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\ejemplo\dir1
-Procesando fichero C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\ejemplo\dir2
-Procesando fichero C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\ejemplo\t1.txt
-Procesando fichero C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\ejemplo\t2.txt
-Procesando fichero C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\ejemplo\dir1\dir
-Procesando fichero C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\ejemplo\dir1\t1.txt
-Procesando fichero C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\ejemplo\dir2\t3.txt
-Procesando fichero C:\Users\sarag\Documents\GitHub\RIBW_PC-Crawler\ejemplo\dir1\dir\t1.txt
+1
+Creando diccionario recursivo...
+dir1-----
+dir-----
+t1.txt-----
+t1.txt-----
+dir2-----
+t3.txt-----
+t1.txt-----
+t2.txt-----
 ------------------
 CONSULTA DE TOKENS
 ------------------
