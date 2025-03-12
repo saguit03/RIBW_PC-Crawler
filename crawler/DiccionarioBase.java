@@ -1,5 +1,11 @@
 package crawler;
 
+/*
+ * RIBW - PC Crawler
+ * * Guillén Torrado, Sara
+ * * Mocinha Sánchez, Daniel
+ */
+
 import thesauro.Thesauro;
 
 import java.io.BufferedReader;

@@ -1,5 +1,12 @@
 package crawler;
 
+/*
+ * RIBW - PC Crawler
+ * * Guillén Torrado, Sara
+ * * Mocinha Sánchez, Daniel
+ */
+
+
 import java.io.File;
 
 public class DiccionarioRecursivo extends DiccionarioBase {
