@@ -1,5 +1,11 @@
 package crawler;
 
+/*
+ * RIBW - PC Crawler
+ * * Guillén Torrado, Sara
+ * * Mocinha Sánchez, Daniel
+ */
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;

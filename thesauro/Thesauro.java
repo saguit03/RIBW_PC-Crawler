@@ -1,5 +1,11 @@
 package thesauro;
 
+/*
+ * RIBW - PC Crawler
+ * * Guillén Torrado, Sara
+ * * Mocinha Sánchez, Daniel
+ */
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -11,11 +17,16 @@ public class Thesauro {
     private static String file = "thesauro.ser";
     private static Map<String, Sinonimo> map;
 
+    /**
+     * Crea un nuevo diccionario Thesauro o lo carga desde el archivo que contiene el mapa ya creado
+     *
+     * @throws Exception Si no encuentra el fichero o no se puede leer
+     */
     public Thesauro() throws Exception {
         Map<String, Sinonimo> cargado = AlmacenarThesauro.cargarThesauro(file);
         if (cargado == null) {
             map = new TreeMap<>();
-            if(leerFichero(new File("Thesaurus_es_ES.txt"))){
+            if (leerFichero(new File("Thesaurus_es_ES.txt"))) {
                 AlmacenarThesauro.guardarThesauro(map, file);
             }
         } else {
@@ -39,7 +50,8 @@ public class Thesauro {
                 listaTokens.add(st.nextToken().toLowerCase());
             }
             Sinonimo listaSinonimos;
-            for (String token : listaTokens) {
+            for (String t : listaTokens) {
+                String token = Sinonimo.quitarParentesis(t);
                 Object o = map.get(token);
                 if (o == null) {
                     listaSinonimos = new Sinonimo(token, listaTokens);
@@ -56,11 +68,10 @@ public class Thesauro {
     }
 
     /**
-     * Lee un fichero válido cualquiera. Se considera válido si existe y tiene permisos de lectura.
+     * Lee un documento de texto.
      *
-     * @param fichero Directorio o documento cuyo contenido se pretende leer, tokenizar y guardar.
+     * @param fichero Documento cuyo contenido se pretende leer, tokenizar y guardar.
      */
-
     public boolean leerFichero(File fichero) {
         boolean done = false;
         try {
@@ -79,15 +90,21 @@ public class Thesauro {
         return map.containsKey(token.toLowerCase());
     }
 
+    /**
+     * Busca un token y lo devuelve junto a sus sinónimos, si los tiene
+     *
+     * @param token El token a buscar
+     * @return El token y, si los tiene, sus sinónimos
+     */
     public static String getToken(String token) {
         if (map.containsKey(token)) {
             Sinonimo sinonimos = map.get(token);
             StringBuilder sb = new StringBuilder();
             sb.append(token);
-            if(sinonimos.getSize() > 0){
+            if (sinonimos.getSize() > 0) {
                 sb.append(" (");
                 sb.append(sinonimos.getSize());
-                sb.append(" sinónimos)"+ " -> ");
+                sb.append(" sinónimos)" + " -> ");
                 sb.append(sinonimos.toString());
             }
             return sb.toString();
@@ -101,7 +118,6 @@ public class Thesauro {
      *
      * @return El mapa de términos y ocurrencias
      */
-
     public Map<String, Sinonimo> getMap() {
         return map;
     }
@@ -111,7 +127,6 @@ public class Thesauro {
      *
      * @param map El nuevo mapa de términos y ocurrencias
      */
-
     public void setMap(Map<String, Sinonimo> map) {
         this.map = map;
     }
@@ -128,7 +143,7 @@ public class Thesauro {
                     System.out.println(getToken(token));
                     System.out.println("************");
                 });
-        System.out.println("Hay un total de "+map.size()+" términos");
+        System.out.println("Hay un total de " + map.size() + " términos");
     }
 
     /**
@@ -146,7 +161,7 @@ public class Thesauro {
                     System.out.println(getToken(token));
                     System.out.println("************");
                 });
-        System.out.println("Hay un total de "+cont+" términos que contienen «"+cadena+"»");
+        System.out.println("Hay un total de " + cont + " términos que contienen «" + cadena + "»");
     }
 
     /**
@@ -164,7 +179,7 @@ public class Thesauro {
                     System.out.println(getToken(token));
                     System.out.println("************");
                 });
-        System.out.println("Hay un total de "+cont+" términos que tienen más de "+min+" sinónimos");
+        System.out.println("Hay un total de " + cont + " términos que tienen más de " + min + " sinónimos");
     }
 
 }
