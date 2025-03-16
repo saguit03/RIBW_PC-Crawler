@@ -56,6 +56,7 @@ public class DiccionarioBase implements Diccionario {
     public void tokenizarFichero(File fichEntrada) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fichEntrada));
         String linea;
+        int indice = LRU.getOrAddRuta(fichEntrada.getAbsolutePath());
 
         while ((linea = br.readLine()) != null) {
             StringTokenizer st = new StringTokenizer(linea, " ,.:;(){}¡!°\"¿?\t'%/\\|[]<=>&#+*$-¨^~\n@");
@@ -64,10 +65,10 @@ public class DiccionarioBase implements Diccionario {
                 if (Thesauro.buscarToken(s.toLowerCase())) {
                     Object o = map.get(s);
                     if (o == null) {
-                        map.put(s, new Ocurrencia(fichEntrada));
+                        map.put(s, new Ocurrencia(indice));
                     } else {
                         Ocurrencia ocurrencia = (Ocurrencia) o;
-                        ocurrencia.incrementarFrecuencia(fichEntrada);
+                        ocurrencia.incrementarFrecuencia(indice);
                     }
                 }
             }

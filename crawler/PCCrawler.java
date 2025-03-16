@@ -52,30 +52,34 @@ public class PCCrawler {
             System.out.println("------------------");
             System.out.println("CONSULTA DE TOKENS");
             System.out.println("------------------");
-            System.out.println("0. Consultar diccionario");
-            System.out.println("1. Buscar un token en el diccionario");
-            System.out.println("2. Terminar consulta");
+            System.out.println("0. Terminar consulta");
+            System.out.println("1. Consultar diccionario");
+            System.out.println("2. Buscar un token en el diccionario");
             System.out.println("3. Consultar Thesauro");
             System.out.println("4. Buscar un token en el Thesauro");
+            System.out.println("5. Mostrar índice de documentos");
             System.out.print("Opción seleccionada: ");
 
             try {
                 opcion = Integer.parseInt(scanner.nextLine());
                 switch (opcion) {
                     case 0:
-                        diccionario.mostrarDiccionario();
+                        terminar = true;
                         break;
                     case 1:
-                        buscarToken(scanner);
+                        diccionario.mostrarDiccionario();
                         break;
                     case 2:
-                        terminar = true;
+                        buscarToken(scanner);
                         break;
                     case 3:
                         consultarThesauro(scanner);
                         break;
                     case 4:
                         buscarThesauro(scanner);
+                        break;
+                    case 5:
+                        LRU.mostrarLRU();
                         break;
                     default:
                         System.out.println("Elige una opción válida");
