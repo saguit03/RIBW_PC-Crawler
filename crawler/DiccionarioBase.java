@@ -57,23 +57,32 @@ public class DiccionarioBase implements Diccionario {
         BufferedReader br = new BufferedReader(new FileReader(fichEntrada));
         String linea;
         int indice = LRU.getOrAddRuta(fichEntrada.getAbsolutePath());
-
         while ((linea = br.readLine()) != null) {
-            StringTokenizer st = new StringTokenizer(linea, " ,.:;(){}¡!°\"¿?\t'%/\\|[]<=>&#+*$-¨^~\n@");
-            while (st.hasMoreTokens()) {
-                String s = st.nextToken();
-                if (Thesauro.buscarToken(s.toLowerCase())) {
-                    Object o = map.get(s);
-                    if (o == null) {
-                        map.put(s, new Ocurrencia(indice));
-                    } else {
-                        Ocurrencia ocurrencia = (Ocurrencia) o;
-                        ocurrencia.incrementarFrecuencia(indice);
-                    }
+            tokenizarTexto(linea, indice);
+        }
+        br.close();
+    }
+
+    @Override
+    public void tokenizarTextoFormato(String ruta, String texto) throws IOException {
+        int indice = LRU.getOrAddRuta(ruta);
+        tokenizarTexto(texto, indice);
+    }
+
+    private void tokenizarTexto(String texto, int indice) {
+        StringTokenizer st = new StringTokenizer(texto, " ,.:;(){}¡!°\"¿?\t'%/\\|[]<=>&#+*$-¨^~\n@");
+        while (st.hasMoreTokens()) {
+            String s = st.nextToken();
+            if (Thesauro.buscarToken(s.toLowerCase())) {
+                Object o = map.get(s);
+                if (o == null) {
+                    map.put(s, new Ocurrencia(indice));
+                } else {
+                    Ocurrencia ocurrencia = (Ocurrencia) o;
+                    ocurrencia.incrementarFrecuencia(indice);
                 }
             }
         }
-        br.close();
     }
 
     /**

@@ -25,6 +25,7 @@ public class DiccionarioRecursivo extends DiccionarioBase {
             leerDirectorio(fichero);
         } else {
             try {
+                // TODO Llamar a Tika para obtener el texto
                 tokenizarFichero(fichero);
             } catch (Exception e) {
                 System.out.println("ERROR al tokenizar el fichero");

@@ -26,6 +26,8 @@ public interface Diccionario {
      */
     void tokenizarFichero(File fichEntrada) throws IOException;
 
+    void tokenizarTextoFormato(String ruta, String texto) throws IOException;
+    
     /**
      * Lee un fichero válido cualquiera. Se considera válido si existe y tiene permisos de lectura.
      *
