@@ -7,6 +7,9 @@ package crawler;
  */
 
 
+import org.apache.tika.exception.TikaException;
+import org.xml.sax.SAXException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -19,15 +22,13 @@ public interface Diccionario {
     void mostrarDiccionario();
 
     /**
-     * Tokeniza un fichero de texto y almacena los resultados en un mapa.
+     * Tokeniza un fichero y almacena los resultados en un mapa.
      *
      * @param fichEntrada Fichero de texto a tokenizar.
      * @throws IOException Si no se puede leer el fichero.
      */
-    void tokenizarFichero(File fichEntrada) throws IOException;
+    void tokenizarFichero(File fichEntrada) throws IOException, TikaException, SAXException;
 
-    void tokenizarTextoFormato(String ruta, String texto) throws IOException;
-    
     /**
      * Lee un fichero válido cualquiera. Se considera válido si existe y tiene permisos de lectura.
      *

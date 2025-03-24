@@ -15,24 +15,18 @@ public enum TipoTika {
     XML(".xml"),
     EPUB(".epub");
 
-    private final String extension;
     public static final int TOTAL_OPCIONES = values().length;
+    private final String extension;
 
     TipoTika(String extension) {
         this.extension = extension;
-    }
-
-    public String getExtension() {
-        return extension;
     }
 
     public static TipoTika obtenerTipoTika(String nombreArchivo) {
         if (nombreArchivo == null || !nombreArchivo.contains(".")) {
             return TipoTika.NINGUNO;
         }
-
         String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf(".")).toLowerCase();
-
         switch (extension) {
             case ".pdf":
                 return TipoTika.PDF;
@@ -49,6 +43,10 @@ public enum TipoTika {
             default:
                 return TipoTika.NINGUNO;
         }
+    }
+
+    public String getExtension() {
+        return extension;
     }
 }
 

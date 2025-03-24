@@ -16,24 +16,17 @@ import org.apache.tika.parser.pdf.PDFParser;
 import org.apache.tika.parser.xml.XMLParser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.SAXException;
-import thesauro.Thesauro;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 import static crawler.TipoTika.obtenerTipoTika;
 
 
 public class TikaExample {
-    public static void main(String[] args) throws Exception {
 
-        String ruta = "C:\\Users\\sarag\\Documents\\GitHub\\RIBW_PC-Crawler\\";
-//        procesarTipoTika(ejemplo);
-    }
-
-    public static void procesarTipoTika(String fichero) throws IOException, TikaException, SAXException {
+    public static String procesarTipoTika(String fichero) throws IOException, TikaException, SAXException {
         TipoTika tipo = obtenerTipoTika(fichero);
         BodyContentHandler handler = new BodyContentHandler();
         Metadata metadata = new Metadata();
@@ -72,21 +65,7 @@ public class TikaExample {
                 File file = new File(fichero);
                 textoPlano = tika.parseToString(file);
         }
-
-        StringTokenizer st = new StringTokenizer(textoPlano, " ,.:;(){}¡!°\"¿?\t'%/\\|[]<=>&#+*$-¨^~\n@");
-        while (st.hasMoreTokens()) {
-            String s = st.nextToken();
-            if (Thesauro.buscarToken(s.toLowerCase())) {
-                Object o = map.get(s);
-                if (o == null) {
-                    map.put(s, new Ocurrencia(indice));
-                } else {
-                    Ocurrencia ocurrencia = (Ocurrencia) o;
-                    ocurrencia.incrementarFrecuencia(indice);
-                }
-            }
-        }
-
+        return textoPlano;
     }
 
 }
