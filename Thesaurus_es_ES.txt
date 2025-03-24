@@ -4334,7 +4334,7 @@ gatada;jugarreta;treta;trampa
 gatear;trepar;reptar;deslizarse
 gatera;orificio;agujero;hueco
 gatillo;detonador;percutor;percusor
-gato;micho;minino;micifuz (NoRAE);felino
+gato;micho;minino;micifuz (NoRAE);felino;gatos;gatitos;gatitas;gatas;michi
 gato;sagaz;astuto;pícaro
 gatuno;astuto;zorro;sagaz;taimado
 gatuperio;chanchullo;embrollo;lío;tapujo
@@ -6552,7 +6552,7 @@ nieve;cocaína
 nihilista;excéptico
 nilón;nailon
 nimbo;halo;aureola
-ninfa;sirena;ondina;nereida;dríada;sílfide;náyade
+ninfa;sirena;ondina;nereida;dríada;sílfide;náyade;sirenas
 ninfomanía;concupiscencia;erotomanía;lujuria;lascivia;furor uterino
 ninguno;nadie;ningún
 nipón;japonés

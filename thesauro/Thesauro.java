@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Thesauro {
-    private static String file = "thesauro.ser";
+    private static final String file = "thesauro.ser";
     private static Map<String, Sinonimo> map;
 
     /**
@@ -32,6 +32,87 @@ public class Thesauro {
         } else {
             this.setMap(cargado);
         }
+    }
+
+    /**
+     * Busca el token indicado y devuelve true si está en el Thesauro, false en caso contrario
+     */
+    public static boolean buscarToken(String token) {
+        return map.containsKey(token.toLowerCase());
+    }
+
+    /**
+     * Busca un token y lo devuelve junto a sus sinónimos, si los tiene
+     *
+     * @param token El token a buscar
+     * @return El token y, si los tiene, sus sinónimos
+     */
+    public static String getToken(String token) {
+        if (map.containsKey(token)) {
+            Sinonimo sinonimos = map.get(token);
+            StringBuilder sb = new StringBuilder();
+            sb.append(token);
+            if (sinonimos.getSize() > 0) {
+                sb.append(" (");
+                sb.append(sinonimos.getSize());
+                sb.append(" sinónimos)" + " -> ");
+                sb.append(sinonimos);
+            }
+            return sb.toString();
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Muestra todos los tokens del Thesauro y sus sinónimos
+     */
+    public static void mostrarDiccionario() {
+        System.out.println("************ THESAURO ************");
+        map.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .forEach(entrada -> {
+                    String token = entrada.getKey();
+                    System.out.println(getToken(token));
+                    System.out.println("************");
+                });
+        System.out.println("Hay un total de " + map.size() + " términos");
+    }
+
+    /**
+     * Muestra todos los tokens del diccionario y sus ocurrencias
+     */
+    public static void mostrarDiccionario(String cadena) {
+        System.out.println("************ THESAURO ************");
+        AtomicInteger cont = new AtomicInteger();
+        map.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .filter(entrada -> entrada.getKey().contains(cadena))
+                .forEach(entrada -> {
+                    cont.getAndIncrement();
+                    String token = entrada.getKey();
+                    System.out.println(getToken(token));
+                    System.out.println("************");
+                });
+        System.out.println("Hay un total de " + cont + " términos que contienen «" + cadena + "»");
+    }
+
+    /**
+     * Muestra todos los tokens del diccionario y sus ocurrencias
+     */
+    public static void mostrarDiccionario(int min) {
+        System.out.println("************ THESAURO ************");
+        AtomicInteger cont = new AtomicInteger();
+        map.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .filter(entrada -> entrada.getValue().getSize() > min)
+                .forEach(entrada -> {
+                    cont.getAndIncrement();
+                    String token = entrada.getKey();
+                    System.out.println(getToken(token));
+                    System.out.println("************");
+                });
+        System.out.println("Hay un total de " + cont + " términos que tienen más de " + min + " sinónimos");
     }
 
     /**
@@ -84,36 +165,6 @@ public class Thesauro {
     }
 
     /**
-     * Busca el token indicado y devuelve true si está en el Thesauro, false en caso contrario
-     */
-    public static boolean buscarToken(String token) {
-        return map.containsKey(token.toLowerCase());
-    }
-
-    /**
-     * Busca un token y lo devuelve junto a sus sinónimos, si los tiene
-     *
-     * @param token El token a buscar
-     * @return El token y, si los tiene, sus sinónimos
-     */
-    public static String getToken(String token) {
-        if (map.containsKey(token)) {
-            Sinonimo sinonimos = map.get(token);
-            StringBuilder sb = new StringBuilder();
-            sb.append(token);
-            if (sinonimos.getSize() > 0) {
-                sb.append(" (");
-                sb.append(sinonimos.getSize());
-                sb.append(" sinónimos)" + " -> ");
-                sb.append(sinonimos.toString());
-            }
-            return sb.toString();
-        } else {
-            return "";
-        }
-    }
-
-    /**
      * Obtiene el mapa de términos y ocurrencias
      *
      * @return El mapa de términos y ocurrencias
@@ -128,58 +179,7 @@ public class Thesauro {
      * @param map El nuevo mapa de términos y ocurrencias
      */
     public void setMap(Map<String, Sinonimo> map) {
-        this.map = map;
-    }
-
-    /**
-     * Muestra todos los tokens del Thesauro y sus sinónimos
-     */
-    public static void mostrarDiccionario() {
-        System.out.println("************ THESAURO ************");
-        map.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue())
-                .forEach(entrada -> {
-                    String token = entrada.getKey();
-                    System.out.println(getToken(token));
-                    System.out.println("************");
-                });
-        System.out.println("Hay un total de " + map.size() + " términos");
-    }
-
-    /**
-     * Muestra todos los tokens del diccionario y sus ocurrencias
-     */
-    public static void mostrarDiccionario(String cadena) {
-        System.out.println("************ THESAURO ************");
-        AtomicInteger cont = new AtomicInteger();
-        map.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue())
-                .filter(entrada -> entrada.getKey().contains(cadena))
-                .forEach(entrada -> {
-                    cont.getAndIncrement();
-                    String token = entrada.getKey();
-                    System.out.println(getToken(token));
-                    System.out.println("************");
-                });
-        System.out.println("Hay un total de " + cont + " términos que contienen «" + cadena + "»");
-    }
-
-    /**
-     * Muestra todos los tokens del diccionario y sus ocurrencias
-     */
-    public static void mostrarDiccionario(int min) {
-        System.out.println("************ THESAURO ************");
-        AtomicInteger cont = new AtomicInteger();
-        map.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue())
-                .filter(entrada -> entrada.getValue().getSize() > min)
-                .forEach(entrada -> {
-                    cont.getAndIncrement();
-                    String token = entrada.getKey();
-                    System.out.println(getToken(token));
-                    System.out.println("************");
-                });
-        System.out.println("Hay un total de " + cont + " términos que tienen más de " + min + " sinónimos");
+        Thesauro.map = map;
     }
 
 }

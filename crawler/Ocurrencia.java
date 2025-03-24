@@ -6,7 +6,6 @@ package crawler;
  * * Mocinha Sánchez, Daniel
  */
 
-
 import java.io.File;
 import java.io.Serializable;
 import java.util.Map;
@@ -23,46 +22,45 @@ public class Ocurrencia implements Serializable, Comparable<Ocurrencia> {
      * String: Nombre de fichero
      * Integer: Frecuencia del término local
      */
-    Map<String, Integer> map = new TreeMap<String, Integer>();
+    Map<Integer, Integer> map = new TreeMap<Integer, Integer>();
 
     /**
      * Constructor de Ocurrencia
      *
-     * @param fichero Documento de texto al cual pertenece el token.
+     * @param indice El índice de la ruta en LRU
      */
-    Ocurrencia(File fichero) {
+    Ocurrencia(int indice) {
         frecuenciaGlobal = 1;
-        map.put(fichero.getAbsolutePath(), 1);
+        map.put(indice, 1);
     }
 
     /**
      * Incrementa la frecuencia global y local de un token.
      *
-     * @param fichero Documento de texto al cual pertenece el token.
+     * @param indice El índice de la ruta en LRU
      */
-    void incrementarFrecuencia(File fichero) {
-        incFrecuenciaGlobal();
-        incFrecuenciaLocal(fichero);
+    void incrementarFrecuencia(int indice) {
+        incrementarFrecuenciaGlobal();
+        incrementarFrecuenciaLocal(indice);
     }
 
     /**
      * Actualiza la frecuencia global del token.
      */
-    void incFrecuenciaGlobal() {
+    void incrementarFrecuenciaGlobal() {
         frecuenciaGlobal++;
     }
 
     /**
      * Actualiza la frecuencia local del token. Si no existía una ocurrencia del token, se inserta.
      *
-     * @param fichero Documento de texto al cual pertenece el token.
+     * @param indice El índice de la ruta en LRU
      */
-    void incFrecuenciaLocal(File fichero) {
-        String path = fichero.getAbsolutePath();
-        if (map.containsKey(path)) {
-            map.put(path, map.get(path) + 1);
+    void incrementarFrecuenciaLocal(int indice) {
+        if (map.containsKey(indice)) {
+            map.put(indice, map.get(indice) + 1);
         } else {
-            map.put(path, 1);
+            map.put(indice, 1);
         }
     }
 
@@ -82,15 +80,16 @@ public class Ocurrencia implements Serializable, Comparable<Ocurrencia> {
      * @return La frecuencia local del token dada una ruta absoluta de un documento
      */
     public int getFrecuenciaLocal(String path) {
+        int indice = LRU.getRuta(path);
         int frecuencia = 0;
-        if (map.containsKey(path)) {
-            frecuencia = map.get(path);
+        if (map.containsKey(indice)) {
+            frecuencia = map.get(indice);
         }
         return frecuencia;
     }
 
     /**
-     * btiene la frecuencia de un token en un documento específico
+     * Obtiene la frecuencia de un token en un documento específico
      *
      * @param fichero Documento donde buscar la ocurrencia
      * @return La frecuencia local del token dado un documento
@@ -108,7 +107,9 @@ public class Ocurrencia implements Serializable, Comparable<Ocurrencia> {
     public String getDocumentos() {
         StringBuilder sb = new StringBuilder();
 
-        map.keySet().stream().sorted().forEach(k -> sb.append("\n\t").append(map.get(k)).append(" ocurrencia(s) en ").append(k));
+        map.keySet().stream().sorted().forEach(
+                k -> sb.append("\n\t").append(map.get(k)).append(" ocurrencia(s) en documento ")
+                        .append(k).append(", correspondiente a la ruta: ").append(LRU.getRuta(k)));
         return sb.toString();
     }
 
