@@ -41,6 +41,15 @@ public class Thesauro {
         return map.containsKey(token.toLowerCase());
     }
 
+    public static List<String> getListaSinonimos(String token) {
+        List<String> listaSinonimos = null;
+        if (map.containsKey(token.toLowerCase())) {
+            Sinonimo sinonimos = map.get(token.toLowerCase());
+            listaSinonimos = new ArrayList<>(sinonimos.getListaSinonimos());
+        }
+        return listaSinonimos;
+    }
+
     /**
      * Busca un token y lo devuelve junto a sus sinónimos, si los tiene
      *
@@ -132,7 +141,7 @@ public class Thesauro {
             }
             Sinonimo listaSinonimos;
             for (String t : listaTokens) {
-                String token = Sinonimo.quitarParentesis(t);
+                String token = Sinonimo.quitarParentesis(t).toLowerCase();
                 Object o = map.get(token);
                 if (o == null) {
                     listaSinonimos = new Sinonimo(token, listaTokens);

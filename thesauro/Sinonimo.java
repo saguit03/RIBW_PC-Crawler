@@ -7,6 +7,7 @@ package thesauro;
  */
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -116,6 +117,10 @@ public class Sinonimo implements Serializable, Comparable<Sinonimo> {
         StringBuilder sb = new StringBuilder();
         map.keySet().stream().sorted().forEach(k -> sb.append(getSinonimo(k)).append("; "));
         return sb.toString();
+    }
+
+    public List<String> getListaSinonimos() {
+        return new ArrayList<>(map.keySet());
     }
 
     /**

@@ -58,6 +58,7 @@ public class PCCrawler {
             System.out.println("3. Consultar Thesauro");
             System.out.println("4. Buscar un token en el Thesauro");
             System.out.println("5. Mostrar índice de documentos");
+            System.out.println("6. Buscar un token y sus sinónimos");
             System.out.print("Opción seleccionada: ");
 
             try {
@@ -81,6 +82,9 @@ public class PCCrawler {
                     case 5:
                         LRU.mostrarLRU();
                         break;
+                    case 6:
+                        buscarSinonimos(scanner);
+                        break;
                     default:
                         System.out.println("Elige una opción válida");
                         break;
@@ -100,9 +104,22 @@ public class PCCrawler {
             if (token.equals("0")) {
                 terminar = true;
             } else {
-                buscarToken(token);
+                buscarToken(token, true);
             }
         }
+    }
+
+    public static boolean buscarToken(String token, boolean mostrarError) {
+        boolean found = false;
+        String ocurrencia = diccionario.buscarToken(token.toLowerCase());
+        if (ocurrencia != "") {
+            System.out.println("** Se ha encontrado el token «" + token + "»: " + ocurrencia);
+            found = true;
+        } else {
+            if(mostrarError)
+                System.out.println("** No existe el token «" + token + "».");
+        }
+        return found;
     }
 
     public static void buscarThesauro(Scanner scanner) {
@@ -118,15 +135,6 @@ public class PCCrawler {
         }
     }
 
-    public static void buscarToken(String token) {
-        String ocurrencia = diccionario.buscarToken(token.toLowerCase());
-        if (ocurrencia != "") {
-            System.out.println("Se ha encontrado el token «" + token + "»: " + ocurrencia);
-        } else {
-            System.out.println("ERROR. No existe el token «" + token + "».");
-        }
-    }
-
     public static void buscarThesauro(String token) {
         String sinonimos = Thesauro.getToken(token.toLowerCase());
         if (sinonimos != "") {
@@ -137,6 +145,32 @@ public class PCCrawler {
         } else {
             System.out.println("ERROR. No existe «" + token + "» en el Thesauro.");
         }
+    }
+
+    public static void buscarSinonimos(Scanner scanner) {
+        boolean terminar = false;
+        while (!terminar) {
+            System.out.print("Token a consultar (escribe 0 para terminar): ");
+            String token = scanner.nextLine();
+            if (token.equals("0")) {
+                terminar = true;
+            } else {
+                buscarSinonimos(token);
+            }
+        }
+    }
+
+    public static void buscarSinonimos(String token) {
+        List<String> listaSinonimos = Thesauro.getListaSinonimos(token);
+        buscarToken(token, true);
+        System.out.println("---- Buscando sinónimos del término «" + token + "»...");
+        int cont = 0;
+        for (String sinonimo : listaSinonimos) {
+            if (buscarToken(sinonimo, false))
+                cont++;
+        }
+        if (cont == 0)
+            System.out.println("*** No se han encontrado sinónimos de «" + token + "»");
     }
 
     public static void consultarThesauro(Scanner scanner) {
@@ -241,7 +275,7 @@ public class PCCrawler {
 
         if (!searchTokens.isEmpty()) {
             for (String token : searchTokens) {
-                buscarToken(token);
+                buscarToken(token, true);
             }
         }
 
