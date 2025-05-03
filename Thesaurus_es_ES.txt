@@ -7598,7 +7598,7 @@ vagido;gemido;llanto;lloriqueo;quejido;sollozo
 vago;lene;indeterminado;leve;ligero;vaporoso;ingrávido;liviano;sutil;tenue;etéreo
 vaguedad;ambigüedad;imprecisión
 vagón;coche;furgón;automóvil
-vaharada;olor;efluvio;tufo
+vaharada;olor;efluvio;tufo;aroma
 vainilla;vainica
 vajilla;vajillo;loza
 valedero;válido;canjeable

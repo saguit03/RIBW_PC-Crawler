@@ -9,6 +9,7 @@ package crawler;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class Ocurrencia implements Serializable, Comparable<Ocurrencia> {
@@ -19,7 +20,7 @@ public class Ocurrencia implements Serializable, Comparable<Ocurrencia> {
 
     /**
      * Frecuencia de término por documento.
-     * String: Nombre de fichero
+     * Integer: Identificador de fichero
      * Integer: Frecuencia del término local
      */
     Map<Integer, Integer> map = new TreeMap<Integer, Integer>();
@@ -32,6 +33,10 @@ public class Ocurrencia implements Serializable, Comparable<Ocurrencia> {
     Ocurrencia(int indice) {
         frecuenciaGlobal = 1;
         map.put(indice, 1);
+    }
+
+    public Set<Integer> getIntDocumentos() {
+        return map.keySet();
     }
 
     /**

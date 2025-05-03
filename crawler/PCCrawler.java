@@ -9,10 +9,7 @@ package crawler;
 import thesauro.Thesauro;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class PCCrawler {
     public static TipoDiccionario tipoDiccionario = TipoDiccionario.NINGUNO;
@@ -54,11 +51,14 @@ public class PCCrawler {
             System.out.println("------------------");
             System.out.println("0. Terminar consulta");
             System.out.println("1. Consultar diccionario");
-            System.out.println("2. Buscar un token en el diccionario");
+            System.out.println("2. Buscar un token (o BIGRAMA) en el diccionario");
             System.out.println("3. Consultar Thesauro");
             System.out.println("4. Buscar un token en el Thesauro");
             System.out.println("5. Mostrar índice de documentos");
-            System.out.println("6. Buscar un token y sus sinónimos");
+            System.out.println("6. Buscar un token y sus SINÓNIMOS");
+            System.out.println("7. Mostrar bigramas");
+            System.out.println("8. Buscar multitérminos");
+            System.out.println("9. Buscar multitérminos con SINONIMIA");
             System.out.print("Opción seleccionada: ");
 
             try {
@@ -84,6 +84,15 @@ public class PCCrawler {
                         break;
                     case 6:
                         buscarSinonimos(scanner);
+                        break;
+                    case 7:
+                        diccionario.mostrarBigramas();
+                        break;
+                    case 8:
+                        buscarMultitermino(scanner, false);
+                        break;
+                    case 9:
+                        buscarMultitermino(scanner, true);
                         break;
                     default:
                         System.out.println("Elige una opción válida");
@@ -116,7 +125,7 @@ public class PCCrawler {
             System.out.println("** Se ha encontrado el token «" + token + "»: " + ocurrencia);
             found = true;
         } else {
-            if(mostrarError)
+            if (mostrarError)
                 System.out.println("** No existe el token «" + token + "».");
         }
         return found;
@@ -171,6 +180,31 @@ public class PCCrawler {
         }
         if (cont == 0)
             System.out.println("*** No se han encontrado sinónimos de «" + token + "»");
+    }
+
+    public static void buscarMultitermino(Scanner scanner, boolean sinonimia) {
+        boolean terminar = false;
+        while (!terminar) {
+            System.out.print("Tokens a consultar SEPARADOS POR ESPACIOS (escribe 0 para terminar): ");
+            String multitermino = scanner.nextLine();
+            if (multitermino.equals("0")) {
+                terminar = true;
+            } else {
+                Set<String> documentos;
+                if(sinonimia){
+                    documentos = diccionario.buscarMultiterminoSinonimo(multitermino);
+                } else {
+                    documentos = diccionario.buscarMultitermino(multitermino);
+                }
+                if (documentos.isEmpty()) {
+                    System.out.println("No se encontraron documentos que contuviesen simultáneamente: " + multitermino);
+                } else {
+                    for (String documento : documentos) {
+                        System.out.println("- " + documento);
+                    }
+                }
+            }
+        }
     }
 
     public static void consultarThesauro(Scanner scanner) {

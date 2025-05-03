@@ -21,15 +21,15 @@ import thesauro.Thesauro;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
+import java.util.*;
 
 import static crawler.TipoTika.obtenerTipoTika;
 
 public class DiccionarioBase implements Diccionario {
 
     private static final Thesauro thesauro;
+    private static final int ngramaSize = 2;
+    private static final int threshold = 3;
     private static Map<String, Ocurrencia> map = new TreeMap<String, Ocurrencia>();
 
     static {
@@ -56,6 +56,27 @@ public class DiccionarioBase implements Diccionario {
                 });
         System.out.println("Hay un total de " + map.size() + " términos");
     }
+
+
+    /**
+     * Muestra todos los bigramas del diccionario y sus ocurrencias
+     */
+    @Override
+    public void mostrarBigramas() {
+        System.out.println("************ DICCIONARIO ************");
+        map.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .forEach(entrada -> {
+                    String token = entrada.getKey();
+                    if (token.contains(" ")) {
+                        Ocurrencia ocurrencia = entrada.getValue();
+                        System.out.println(token + " -> " + ocurrencia.toString());
+                        System.out.println("************");
+                    }
+                });
+        System.out.println("Hay un total de " + map.size() + " bigramas");
+    }
+
 
     /**
      * Tokeniza un fichero y almacena los resultados en un mapa.
@@ -111,18 +132,46 @@ public class DiccionarioBase implements Diccionario {
      * @param indice El índice del documento al que pertenece el texto
      */
     private void tokenizarTexto(String texto, int indice) {
-        StringTokenizer st = new StringTokenizer(texto, " ,.:;(){}¡!°\"¿?\t'%/\\|[]<=>&#+*$-¨^~\n@");
+        StringTokenizer st = new StringTokenizer(texto, " ,.:;(){}¡!°\"¿?\t\r'%/\\|[]<=>&#+*$-¨^~\n@");
+        List<String> bigrama = new ArrayList<>();
+        String token, bitoken;
+        int cont = 0;
         while (st.hasMoreTokens()) {
-            String s = st.nextToken();
-            if (Thesauro.buscarToken(s.toLowerCase())) {
-                Object o = map.get(s);
-                if (o == null) {
-                    map.put(s, new Ocurrencia(indice));
-                } else {
-                    Ocurrencia ocurrencia = (Ocurrencia) o;
-                    ocurrencia.incrementarFrecuencia(indice);
-                }
+            if (cont > threshold) {
+                bigrama.clear();
+                cont = 0;
             }
+
+            token = st.nextToken();
+            if (Thesauro.buscarToken(token.toLowerCase())) {
+                bigrama.add(token);
+                crearOcurrencia(token, indice);
+                if (bigrama.size() == ngramaSize) {
+                    bitoken = bigrama.get(0) + " " + bigrama.get(1);
+                    crearOcurrencia(bitoken, indice);
+                    bigrama.remove(0);
+                    cont--;
+                }
+                cont--;
+            }
+
+            cont++;
+        }
+    }
+
+    /**
+     * Crea o actualiza la ocurrencia de la cadena ngrama
+     *
+     * @param ngrama Cadena de texto (unigrama, bigrama...)
+     * @param indice El índice del documento al que pertenece el texto
+     */
+    private void crearOcurrencia(String ngrama, int indice) {
+        Object o = map.get(ngrama);
+        if (o == null) {
+            map.put(ngrama, new Ocurrencia(indice));
+        } else {
+            Ocurrencia ocurrencia = (Ocurrencia) o;
+            ocurrencia.incrementarFrecuencia(indice);
         }
     }
 
@@ -150,6 +199,66 @@ public class DiccionarioBase implements Diccionario {
         } else {
             return "";
         }
+    }
+
+    @Override
+    public Set<String> buscarMultitermino(String multitermino) {
+        StringTokenizer st = new StringTokenizer(multitermino, " ");
+        String token;
+        int cont = 0;
+        Map<Integer, Integer> documentoFrecuencia = new TreeMap<>();
+        while (st.hasMoreTokens()) {
+            token = st.nextToken();
+            cont++;
+            actualizarFrecuenciaMultitermino(token, documentoFrecuencia);
+        }
+        return getDocumentosMultitermino(documentoFrecuencia, cont);
+    }
+
+    private void actualizarFrecuenciaMultitermino(String token, Map<Integer, Integer> documentoFrecuencia) {
+        if (map.containsKey(token)) {
+            Ocurrencia ocurrencia = map.get(token);
+            for (Integer i : ocurrencia.getIntDocumentos()) {
+                if (documentoFrecuencia.containsKey(i)) {
+                    documentoFrecuencia.put(i, documentoFrecuencia.get(i) + 1);
+                } else {
+                    documentoFrecuencia.put(i, 1);
+                }
+            }
+        }
+    }
+
+    private Set<String> getDocumentosMultitermino(Map<Integer, Integer> documentoFrecuencia, int cont) {
+        Set<String> documentos = new TreeSet<>();
+        for (Integer i : documentoFrecuencia.keySet()) {
+            if (documentoFrecuencia.get(i) >= cont) {
+                // Solo devuelve las rutas de aquellos que tengan una frecuencia igual o mayor al número de multitérminos
+                // Se permite mayor por los sinónimos
+                documentos.add(LRU.getRuta(i));
+            }
+        }
+        return documentos;
+    }
+
+    @Override
+    public Set<String> buscarMultiterminoSinonimo(String multitermino) {
+        StringTokenizer st = new StringTokenizer(multitermino, " ");
+        int cont = 0;
+        Map<Integer, Integer> documentoFrecuencia = new TreeMap<>();
+        List<String> listaSinonimos;
+        Queue<String> multiterminosSinonimos = new LinkedList<>();
+        while (st.hasMoreTokens()) {
+            cont++;
+            String token = st.nextToken();
+            multiterminosSinonimos.add(token);
+            listaSinonimos = Thesauro.getListaSinonimos(token);
+            multiterminosSinonimos.addAll(listaSinonimos);
+        }
+        while (!multiterminosSinonimos.isEmpty()) {
+            String currentToken = multiterminosSinonimos.poll();
+            actualizarFrecuenciaMultitermino(currentToken, documentoFrecuencia);
+        }
+        return getDocumentosMultitermino(documentoFrecuencia, cont);
     }
 
     /**

@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 public interface Diccionario {
 
@@ -20,6 +21,12 @@ public interface Diccionario {
      * Muestra todos los tokens del diccionario y sus ocurrencias
      */
     void mostrarDiccionario();
+
+
+    /**
+     * Muestra todos los bigramas del diccionario y sus ocurrencias
+     */
+    void mostrarBigramas();
 
     /**
      * Tokeniza un fichero y almacena los resultados en un mapa.
@@ -36,7 +43,6 @@ public interface Diccionario {
      */
     void leerFichero(File fichero);
 
-
     /**
      * Busca el token indicado y devuelve su frecuencia global. En caso de no encontrarse, devuelve 0.
      *
@@ -44,6 +50,23 @@ public interface Diccionario {
      * @return La ocurrencia
      */
     String buscarToken(String token);
+
+    /**
+     * Busca los documentos en los que aparecen los tokens de la cadena multitermino
+     *
+     * @param multitermino Cadena de tokens separados por espacios
+     * @return Documentos que contienen el multitérmino simultáneamente
+     */
+    Set<String> buscarMultitermino(String multitermino);
+
+
+    /**
+     * Busca los documentos en los que aparecen los tokens de la cadena multitérmino (o alguno de sus sinónimos)
+     *
+     * @param multitermino Cadena de tokens separados por espacios
+     * @return Documentos que contienen el multitérmino (o alguno de sus sinónimos) simultáneamente
+     */
+    Set<String> buscarMultiterminoSinonimo(String multitermino);
 
     /**
      * Obtiene el mapa de tokens y ocurrencias
