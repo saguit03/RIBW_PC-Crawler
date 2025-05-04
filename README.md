@@ -3,7 +3,7 @@
 ## Ejecución con argumentos
 
 ```
-java PCCrawler [-menu] [-cargar] [-iter] [-recur] [-file nombre_archivo] [-all][-search <tokens_a_buscar>][-multi <tokens_a_buscar>]
+java PCCrawler [-menu] [-cargar] [-iter] [-recur] [-sinonimia] [-file nombre_archivo] [-all][-search <tokens_a_buscar>][-multi <tokens_a_buscar>]
 ```
 
 * `-menu`: Muestra un menú interactivo para realizar operaciones sobre el diccionario antes de terminar la ejecución.
@@ -15,7 +15,7 @@ java PCCrawler [-menu] [-cargar] [-iter] [-recur] [-file nombre_archivo] [-all][
 
 * `-recur`: Selecciona el diccionario de enfoque recursivo y lo almacena en el fichero «diccionario.ser». Es necesario
   pasarle el nombre del fichero a analizar (* `-file nombre_archivo`).
-*
+
 * `-sinonimia`: Activa la búsqueda de sinónimos.
 
 * `-file nombre_archivo`: Indica el nombre del fichero a analizar.
@@ -24,7 +24,7 @@ java PCCrawler [-menu] [-cargar] [-iter] [-recur] [-file nombre_archivo] [-all][
 
 * `-search tokens_a_buscar`: Busca los términos indicados en el diccionario. Este debe ser el último argumento, seguido
   de los términos a buscar.
-*
+
 * `-multi tokens_a_buscar`: Busca en el diccionario los documentos que contengan simultáneamente los términos a buscar.
   Este debe ser el último argumento, seguido de los términos a buscar.
 
