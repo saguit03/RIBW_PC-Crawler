@@ -6,6 +6,10 @@ package crawler;
  * * Mocinha Sánchez, Daniel
  */
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +17,34 @@ import java.util.List;
  * LRU - Localizador de Recursos Uniforme (en inglés URL, Uniform Resource Locator)
  */
 public class LRU {
+    static final String fichero = "LRU.ser";
     static List<String> rutas = new ArrayList<String>();
+
+    /**
+     * Imprime el contenido de un objeto serializable previamente guardado en un fichero.
+     */
+    public static void cargarLRU() {
+        try {
+            FileInputStream fis = new FileInputStream(fichero);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            rutas = (List<String>) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    /**
+     * Guarda un objeto serializable en un fichero.
+     */
+    public static void guardarLRU() throws Exception {
+        FileOutputStream fos = new FileOutputStream(fichero);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(rutas);
+        oos.close();
+        fos.close();
+    }
 
     /**
      * Obtiene el índice de una ruta

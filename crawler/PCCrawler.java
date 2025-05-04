@@ -9,10 +9,7 @@ package crawler;
 import thesauro.Thesauro;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class PCCrawler {
     public static TipoDiccionario tipoDiccionario = TipoDiccionario.NINGUNO;
@@ -54,11 +51,14 @@ public class PCCrawler {
             System.out.println("------------------");
             System.out.println("0. Terminar consulta");
             System.out.println("1. Consultar diccionario");
-            System.out.println("2. Buscar un token en el diccionario");
+            System.out.println("2. Buscar un token (o BIGRAMA) en el diccionario");
             System.out.println("3. Consultar Thesauro");
             System.out.println("4. Buscar un token en el Thesauro");
             System.out.println("5. Mostrar índice de documentos");
-            System.out.println("6. Buscar un token y sus sinónimos");
+            System.out.println("6. Buscar un token y sus SINÓNIMOS");
+            System.out.println("7. Mostrar bigramas");
+            System.out.println("8. Buscar multitérminos");
+            System.out.println("9. Buscar multitérminos con SINONIMIA");
             System.out.print("Opción seleccionada: ");
 
             try {
@@ -84,6 +84,15 @@ public class PCCrawler {
                         break;
                     case 6:
                         buscarSinonimos(scanner);
+                        break;
+                    case 7:
+                        diccionario.mostrarBigramas();
+                        break;
+                    case 8:
+                        buscarMultitermino(scanner, false);
+                        break;
+                    case 9:
+                        buscarMultitermino(scanner, true);
                         break;
                     default:
                         System.out.println("Elige una opción válida");
@@ -116,7 +125,7 @@ public class PCCrawler {
             System.out.println("** Se ha encontrado el token «" + token + "»: " + ocurrencia);
             found = true;
         } else {
-            if(mostrarError)
+            if (mostrarError)
                 System.out.println("** No existe el token «" + token + "».");
         }
         return found;
@@ -173,6 +182,36 @@ public class PCCrawler {
             System.out.println("*** No se han encontrado sinónimos de «" + token + "»");
     }
 
+    public static void mostrarDocumentosMultitermino(String multitermino, boolean sinonimia) {
+        Set<String> documentos;
+        if (sinonimia) {
+            documentos = diccionario.buscarMultiterminoSinonimo(multitermino);
+        } else {
+            documentos = diccionario.buscarMultitermino(multitermino);
+        }
+        if (documentos.isEmpty()) {
+            System.out.println("No se encontraron documentos que contuviesen simultáneamente: " + multitermino);
+        } else {
+            for (String documento : documentos) {
+                System.out.println("- " + documento);
+            }
+            System.out.println("***** Se encontraron un total de [" + documentos.size() + "] documentos que contuviesen simultáneamente: " + multitermino);
+        }
+    }
+
+    public static void buscarMultitermino(Scanner scanner, boolean sinonimia) {
+        boolean terminar = false;
+        while (!terminar) {
+            System.out.print("Tokens a consultar SEPARADOS POR ESPACIOS (escribe 0 para terminar): ");
+            String multitermino = scanner.nextLine();
+            if (multitermino.equals("0")) {
+                terminar = true;
+            } else {
+                mostrarDocumentosMultitermino(multitermino, sinonimia);
+            }
+        }
+    }
+
     public static void consultarThesauro(Scanner scanner) {
         boolean terminar = false;
         while (!terminar) {
@@ -187,7 +226,7 @@ public class PCCrawler {
     }
 
     public static void showHelp() {
-        System.out.println(">java PCCrawler [-menu] [-cargar] [-iter] [-recur] [-file nombre_archivo] [-all] [-search tokens_a_buscar]");
+        System.out.println(">java PCCrawler [-menu] [-cargar] [-iter] [-recur] [-sinonimia] [-file nombre_archivo] [-all] [-search tokens_a_buscar][-multi tokens_a_buscar]");
     }
 
     public static void main(String[] args) throws Exception {
@@ -201,6 +240,8 @@ public class PCCrawler {
         boolean showAll = false;
         List<String> searchTokens = new ArrayList<>();
         boolean menu = false;
+        boolean multi = false;
+        boolean sinonimia = false;
 
         // Procesar los argumentos
         for (int i = 0; i < args.length; i++) {
@@ -216,6 +257,9 @@ public class PCCrawler {
                     break;
                 case "-recur":
                     tipoDiccionario = TipoDiccionario.RECURSIVO;
+                    break;
+                case "-sinonimia":
+                    sinonimia = true;
                     break;
                 case "-file":
                     if (i + 1 < args.length) {
@@ -238,6 +282,16 @@ public class PCCrawler {
                         return;
                     }
                     break;
+                case "-multi":
+                    multi = true;
+                    if (i + 1 < args.length) {
+                        searchTokens.addAll(Arrays.asList(args).subList(++i, args.length));
+                        i = args.length;
+                    } else {
+                        System.err.println("Error: -multi requiere una lista de tokens.");
+                        return;
+                    }
+                    break;
                 case "-help":
                 case "-h":
                 default:
@@ -249,13 +303,13 @@ public class PCCrawler {
         switch (tipoDiccionario) {
             case CARGADO:
                 diccionario.setMap(AlmacenarObjeto.cargarDiccionario("diccionario.ser"));
+                nuevoDiccionario = false;
                 break;
             case ITERATIVO:
                 System.out.println("Creando diccionario iterativo...");
                 diccionario = new DiccionarioIterativo();
                 break;
             case RECURSIVO:
-
                 System.out.println("Creando diccionario recursivo...");
                 diccionario = new DiccionarioRecursivo();
                 break;
@@ -274,8 +328,16 @@ public class PCCrawler {
         }
 
         if (!searchTokens.isEmpty()) {
-            for (String token : searchTokens) {
-                buscarToken(token, true);
+            if (multi) {
+                StringBuilder multitermino = new StringBuilder();
+                for (String token : searchTokens) {
+                    multitermino.append(token).append(" ");
+                }
+                mostrarDocumentosMultitermino(multitermino.toString(), sinonimia);
+            } else {
+                for (String token : searchTokens) {
+                    buscarToken(token, true);
+                }
             }
         }
 
