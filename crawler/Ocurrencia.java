@@ -25,6 +25,28 @@ public class Ocurrencia implements Serializable, Comparable<Ocurrencia> {
      */
     Map<Integer, Integer> map = new TreeMap<Integer, Integer>();
 
+    public void setFrecuenciaGlobal(Integer frecuenciaGlobal) {
+        this.frecuenciaGlobal = frecuenciaGlobal;
+    }
+
+    public void setMapFrecuencias(Map<Integer, Integer> map) {
+        this.map = map;
+    }
+
+    public Map<Integer, Integer> getMapFrecuencias() {
+        return map;
+    }
+
+    public void updateMapFrecuencias(Ocurrencia ocurrencia){
+        Map<Integer, Integer> newMap = ocurrencia.getMapFrecuencias();
+        for (Integer i: newMap.keySet()){
+            Integer frecuencia = this.map.putIfAbsent(i, newMap.get(i));
+            if (frecuencia != null ){
+                this.map.put(i, frecuencia+newMap.get(i));
+            }
+        }
+    }
+
     /**
      * Constructor de Ocurrencia
      *

@@ -24,6 +24,7 @@ public class AlmacenarObjeto {
             FileInputStream fis = new FileInputStream(fichero);
             ObjectInputStream ois = new ObjectInputStream(fis);
             map = (Map<String, Ocurrencia>) ois.readObject();
+            LRU.cargarLRU();
             ois.close();
             fis.close();
         } catch (Exception e) {
@@ -42,6 +43,7 @@ public class AlmacenarObjeto {
         FileOutputStream fos = new FileOutputStream(fichero);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(map);
+        LRU.guardarLRU();
         oos.close();
         fos.close();
     }
