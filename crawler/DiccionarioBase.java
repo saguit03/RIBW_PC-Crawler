@@ -223,7 +223,7 @@ public class DiccionarioBase implements Diccionario {
     private void actualizarFrecuenciaMultitermino(String token, Map<String, Ocurrencia> documentoFrecuencia, String sinonimo) {
         if (map.containsKey(sinonimo)) {
             Ocurrencia ocurrencia = map.get(sinonimo);
-            if(documentoFrecuencia.containsKey(token)) {
+            if (documentoFrecuencia.containsKey(token)) {
                 ocurrencia.updateMapFrecuencias(documentoFrecuencia.get(token));
             }
             documentoFrecuencia.put(token, ocurrencia);
@@ -234,8 +234,8 @@ public class DiccionarioBase implements Diccionario {
         Map<Integer, Integer> multitermino = new TreeMap<>();
 
         for (Ocurrencia ocurrencia : documentoFrecuencia.values()) {
-            for (Integer i: ocurrencia.getIntDocumentos()) {
-                if(multitermino.containsKey(i)) {
+            for (Integer i : ocurrencia.getIntDocumentos()) {
+                if (multitermino.containsKey(i)) {
                     multitermino.put(i, multitermino.get(i) + 1);
                 } else {
                     multitermino.put(i, 1);
@@ -261,7 +261,7 @@ public class DiccionarioBase implements Diccionario {
             String token = st.nextToken();
             actualizarFrecuenciaMultitermino(token, documentoFrecuencia);
             listaSinonimos = Thesauro.getListaSinonimos(token);
-            for (String sinonimo: listaSinonimos){
+            for (String sinonimo : listaSinonimos) {
                 actualizarFrecuenciaMultitermino(token, documentoFrecuencia, sinonimo);
             }
         }

@@ -17,8 +17,8 @@ import java.util.List;
  * LRU - Localizador de Recursos Uniforme (en inglés URL, Uniform Resource Locator)
  */
 public class LRU {
-    static List<String> rutas = new ArrayList<String>();
     static final String fichero = "LRU.ser";
+    static List<String> rutas = new ArrayList<String>();
 
     /**
      * Imprime el contenido de un objeto serializable previamente guardado en un fichero.
