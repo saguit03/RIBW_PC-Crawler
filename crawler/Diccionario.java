@@ -1,0 +1,84 @@
+package crawler;
+
+/*
+ * RIBW - PC Crawler
+ * * Guillén Torrado, Sara
+ * * Mocinha Sánchez, Daniel
+ */
+
+
+import org.apache.tika.exception.TikaException;
+import org.xml.sax.SAXException;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
+
+public interface Diccionario {
+
+    /**
+     * Muestra todos los tokens del diccionario y sus ocurrencias
+     */
+    void mostrarDiccionario();
+
+
+    /**
+     * Muestra todos los bigramas del diccionario y sus ocurrencias
+     */
+    void mostrarBigramas();
+
+    /**
+     * Tokeniza un fichero y almacena los resultados en un mapa.
+     *
+     * @param fichEntrada Fichero de texto a tokenizar.
+     * @throws IOException Si no se puede leer el fichero.
+     */
+    void tokenizarFichero(File fichEntrada) throws IOException, TikaException, SAXException;
+
+    /**
+     * Lee un fichero válido cualquiera. Se considera válido si existe y tiene permisos de lectura.
+     *
+     * @param fichero Directorio o documento cuyo contenido se pretende leer, tokenizar y guardar.
+     */
+    void leerFichero(File fichero);
+
+    /**
+     * Busca el token indicado y devuelve su frecuencia global. En caso de no encontrarse, devuelve 0.
+     *
+     * @param token Término del cual se pretende obtener su frecuencia.
+     * @return La ocurrencia
+     */
+    String buscarToken(String token);
+
+    /**
+     * Busca los documentos en los que aparecen los tokens de la cadena multitermino
+     *
+     * @param multitermino Cadena de tokens separados por espacios
+     * @return Documentos que contienen el multitérmino simultáneamente
+     */
+    Set<String> buscarMultitermino(String multitermino);
+
+
+    /**
+     * Busca los documentos en los que aparecen los tokens de la cadena multitérmino (o alguno de sus sinónimos)
+     *
+     * @param multitermino Cadena de tokens separados por espacios
+     * @return Documentos que contienen el multitérmino (o alguno de sus sinónimos) simultáneamente
+     */
+    Set<String> buscarMultiterminoSinonimo(String multitermino);
+
+    /**
+     * Obtiene el mapa de tokens y ocurrencias
+     *
+     * @return El mapa de tokens y ocurrencias
+     */
+    Map<String, Ocurrencia> getMap();
+
+    /**
+     * Actualiza el mapa de tokens y ocurrencias
+     *
+     * @param map El nuevo mapa de tokens y ocurrencias
+     */
+    void setMap(Map<String, Ocurrencia> map);
+}
